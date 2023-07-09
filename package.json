@@ -1,0 +1,23 @@
+{
+  "name": "playwright-decorators",
+  "version": "0.0.0",
+  "description": "Decorators for writing Playwright based tests.",
+  "module": "dist/index.mjs",
+  "scripts": {
+    "build:lib": "vite build",
+    "build:types": "dts-bundle-generator --config ./dts-bundle-generator.config.ts",
+    "build": "npm run build:lib",
+    "postbuild": "npm run build:types",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "SebastianSedzik@gmail.com",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "1.35.1",
+    "dts-bundle-generator": "8.0.1",
+    "vite": "4.4.2"
+  },
+  "peerDependencies": {
+    "@playwright/test": ">=1.35.1 && <2.0.0"
+  }
+}
