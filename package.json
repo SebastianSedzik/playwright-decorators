@@ -3,18 +3,33 @@
   "version": "0.0.0",
   "description": "Decorators for writing Playwright based tests.",
   "module": "dist/index.mjs",
+  "author": "SebastianSedzik@gmail.com",
+  "license": "ISC",
   "scripts": {
     "build:lib": "vite build",
     "build:types": "dts-bundle-generator --config ./dts-bundle-generator.config.ts",
     "build": "npm run build:lib",
     "postbuild": "npm run build:types",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint --ignore-path .gitignore ./lib",
+    "format": "prettier --ignore-path .gitignore --check ./lib"
   },
-  "author": "SebastianSedzik@gmail.com",
-  "license": "ISC",
+  "simple-git-hooks": {
+    "pre-commit": "./node_modules/.bin/lint-staged"
+  },
+  "lint-staged": {
+    "*": [
+      "npm run lint -- --fix",
+      "npm run format -- --write"
+    ]
+  },
   "devDependencies": {
     "@playwright/test": "1.35.1",
+    "@typescript-eslint/eslint-plugin": "5.61.0",
     "dts-bundle-generator": "8.0.1",
+    "eslint": "8.44.0",
+    "lint-staged": "13.2.3",
+    "prettier": "3.0.0",
+    "simple-git-hooks": "2.8.1",
     "vite": "4.4.2"
   },
   "peerDependencies": {
