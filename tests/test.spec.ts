@@ -10,19 +10,25 @@ playwright.describe('@test decorator', () => {
     testMethod() {
       called.push('testMethod');
     }
-    
+
     @test()
     testMethod2() {
       called.push('testMethod2');
     }
-    
+
     notTestMethod() {
       called.push('notTestMethod');
+    }
+
+    @test()
+    testThisContext() {
+      called.push('testThisContext');
+      expect(this instanceof ExampleSuite).toBeTruthy();
     }
   }
 
   playwright('Methods with @test should be run', () => {
-    expect(called).toEqual(expect.arrayContaining(['testMethod', 'testMethod2']));
+    expect(called).toEqual(expect.arrayContaining(['testMethod', 'testMethod2', 'testThisContext']));
   });
   
   playwright('Methods without @test should not be run', () => {
