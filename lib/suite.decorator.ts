@@ -1,24 +1,24 @@
 import playwright from '@playwright/test';
 
+type Constructor = { new (...args: any[]): any };
+
 class SuiteDecorator {
-  onBeforeTestListeners: (() => void)[] = [];
-  
   /**
-   * Run after test.describe() and before test() calls
-   * @param callback
+   * Name of the suite. Default: name of the suite class
    */
-  onBeforeTest(callback: () => void) {
-    this.onBeforeTestListeners.push(callback);
+  name = '';
+
+  constructor(private suiteClass: Constructor) {
+    this.name = suiteClass.name;
   }
   
-  private runOnBeforeTestListeners() {
-    this.onBeforeTestListeners.forEach(hook => hook());
+  private runSuite(userSuiteCode: () => Promise<any>) {
+    return userSuiteCode();
   }
 
-  run(constructor: any) {
-    playwright.describe(constructor.name, () => {
-      this.runOnBeforeTestListeners();
-      new constructor();
+  run() {
+    playwright.describe(this.name, () => {
+      return this.runSuite(() => new this.suiteClass())
     });
   }
 }
@@ -26,14 +26,14 @@ class SuiteDecorator {
 export type SuiteDecoratedMethod = { suiteDecorator: SuiteDecorator };
 
 /**
- * Mark class as test suite
+ * Mark class as test suite.
  */
-export function suite<T extends { new (...args: any[]): any }>(constructor: T, context?: ClassMethodDecoratorContext) {
-  const suiteDecorator = new SuiteDecorator();
+export function suite<T extends Constructor>(constructor: T, context?: ClassMethodDecoratorContext) {
+  const suiteDecorator = new SuiteDecorator(constructor);
 
   Object.assign(constructor, { suiteDecorator });
 
   context?.addInitializer(() => {
-    suiteDecorator.run(constructor);
+    suiteDecorator.run();
   })
 }
