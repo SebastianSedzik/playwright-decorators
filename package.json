@@ -15,7 +15,8 @@
     "build": "npm run build:lib",
     "postbuild": "npm run build:types",
     "lint": "eslint --ignore-path .gitignore ./lib",
-    "format": "prettier --ignore-path .gitignore --check ./lib"
+    "format": "prettier --ignore-path .gitignore --check ./lib",
+    "test": "playwright test"
   },
   "simple-git-hooks": {
     "pre-commit": "./node_modules/.bin/lint-staged"
