@@ -5,7 +5,7 @@ playwright.describe('@suite decorator', () => {
   let withSuiteDecoratorRun = false;
   let withoutSuiteDecoratorRun = false;
 
-  @suite
+  @suite()
   class WithSuiteDecorator {
     constructor() {
       withSuiteDecoratorRun = true;

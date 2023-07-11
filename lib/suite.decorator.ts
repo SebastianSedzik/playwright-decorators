@@ -2,16 +2,22 @@ import playwright from '@playwright/test';
 
 type Constructor = { new (...args: any[]): any };
 
-class SuiteDecorator {
+interface SuiteDecoratorOptions {
   /**
    * Name of the suite. Default: name of the suite class
    */
-  name = '';
+  name?: string;
+}
 
-  constructor(private suiteClass: Constructor) {
+class SuiteDecorator implements SuiteDecoratorOptions {
+  name: string;
+
+  constructor(private suiteClass: Constructor, options: SuiteDecoratorOptions) {
     this.name = suiteClass.name;
+
+    Object.assign(this, options);
   }
-  
+
   private runSuite(userSuiteCode: () => Promise<any>) {
     return userSuiteCode();
   }
@@ -28,8 +34,8 @@ export type SuiteDecoratedMethod = { suiteDecorator: SuiteDecorator };
 /**
  * Mark class as test suite.
  */
-export function suite<T extends Constructor>(constructor: T, context?: ClassMethodDecoratorContext) {
-  const suiteDecorator = new SuiteDecorator(constructor);
+export const suite = (options: SuiteDecoratorOptions = {}) => function<T extends Constructor>(constructor: T, context?: ClassMethodDecoratorContext) {
+  const suiteDecorator = new SuiteDecorator(constructor, options);
 
   Object.assign(constructor, { suiteDecorator });
 

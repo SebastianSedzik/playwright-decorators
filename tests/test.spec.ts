@@ -4,14 +4,14 @@ import {suite, test} from "../lib";
 playwright.describe('@test decorator', () => {
   const called: string[] = [];
   
-  @suite
+  @suite()
   class ExampleSuite {
-    @test
+    @test()
     testMethod() {
       called.push('testMethod');
     }
     
-    @test
+    @test()
     testMethod2() {
       called.push('testMethod2');
     }
@@ -20,7 +20,7 @@ playwright.describe('@test decorator', () => {
       called.push('notTestMethod');
     }
   }
-  
+
   playwright('Methods with @test should be run', () => {
     expect(called).toEqual(expect.arrayContaining(['testMethod', 'testMethod2']));
   });
