@@ -1,6 +1,6 @@
 # playwright-decorators
 
-Decorators for writing Playwright based tests.
+TypeScript's decorators for writing Playwright based tests.
 
 ## Getting started
 
