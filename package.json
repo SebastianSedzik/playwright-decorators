@@ -17,7 +17,7 @@
     "lint": "eslint --ignore-path .gitignore ./lib",
     "format": "prettier --ignore-path .gitignore --check ./lib",
     "test": "playwright test",
-    "release": "release-it --dry-run"
+    "release": "release-it"
   },
   "simple-git-hooks": {
     "pre-commit": "./node_modules/.bin/lint-staged"
