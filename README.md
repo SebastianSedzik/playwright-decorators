@@ -2,14 +2,13 @@
 
 TypeScript's decorators for writing Playwright based tests.
 
-## Getting started
-
-### #1 Install package
+## 🌱 Installation
 ```sh
 npm i playwright-decorators
 ```
 
-### #2 Declare tests using `@suite` and `@test` decorators
+## 🏗️ Usage
+Declare tests using `@suite` and `@test` decorators
 ```ts
 import { suite, test } from 'playwright-decorators';
 
@@ -22,7 +21,7 @@ class MyTestSuite {
 }
 ```
 
-## Documentation
+## 📝 Documentation
 ### `@suite()`, `@suite(options)` => `describe()`
 Mark class as a test suite.
 Runs all class methods decorated by `@test` inside `options.name` context (`describe(options.name, all_methods_decorated_by_@test`).
