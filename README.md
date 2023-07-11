@@ -2,6 +2,8 @@
 
 TypeScript's decorators for writing Playwright based tests.
 
+> **Warning**: This package is in early development stage. Use it at your own risk.
+
 ## 🌱 Installation
 ```sh
 npm i playwright-decorators
