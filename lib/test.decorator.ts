@@ -1,43 +1,51 @@
 import playwright from '@playwright/test';
 
-class TestDecorator {
-  onBeforeTestListeners: (() => void)[] = [];
-  
+interface TestDecoratorOptions {
   /**
-   * Run inside test() call, before original test code execution
-   * @param callback
+   * Name of the test. Default: name of the method
    */
-  onBeforeTest(callback: () => void) {
-    this.onBeforeTestListeners.push(callback);
-  }
-  
-  private runOnBeforeTestListeners() {
-    this.onBeforeTestListeners.forEach(hook => hook());
-  }
-  
-  run(constructor: any, context: any) {
-    const constructorProxy = new Proxy(constructor, {
-      apply: (target: any, thisArg: any, argArray: any[]) => {
-        this.runOnBeforeTestListeners();
-        return target.apply(context, argArray);
-      }
-    })
+  name?: string;
+}
 
-    playwright(constructor.name, constructorProxy.bind(context));
+class TestDecorator implements TestDecoratorOptions {
+  name: string;
+
+  constructor(private testMethod: any, private testMethodContext: any, options: TestDecoratorOptions) {
+    this.name = testMethod.name;
+    
+    Object.assign(this, options);
+  }
+
+  private wrapTest(testCode: () => Promise<any>, wrapperCode: (args: (() => Promise<any>)) => Promise<any>) {
+    return new Proxy(testCode, {
+      apply: (target: any, thisArg: any, argArray: any[]) =>
+          wrapperCode(() => target.apply(this.testMethodContext, argArray))
+      })
+  }
+
+  private runTest(userTestCode: () => Promise<any>) {
+    return userTestCode();
+  }
+
+  run() {
+    const testCallback = this.wrapTest(this.testMethod, this.runTest).bind(this.testMethodContext);
+
+    playwright(this.name, testCallback);
   }
 }
 
 export type TestDecoratedMethod = { testDecorator: TestDecorator };
 
 /**
- * Mark @suite class method as test
+ * Mark method as test.
+ * Method class should be marked with @suite decorator
  */
-export function test(originalMethod: any, context: ClassMemberDecoratorContext) {
-  const testDecorator = new TestDecorator();
-  
+export const test = (options: TestDecoratorOptions = {}) => function(originalMethod: any, context: ClassMemberDecoratorContext) {
+  const testDecorator = new TestDecorator(originalMethod, context, options);
+
   Object.assign(originalMethod, { testDecorator });
 
   context.addInitializer(function () {
-    testDecorator.run(originalMethod, this);
+    testDecorator.run();
   });
 }
