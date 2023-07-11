@@ -1,0 +1,19 @@
+{
+  "github": {
+    "release": true
+  },
+  "npm": {
+    "publish": true
+  },
+  "git": {
+    "requireBranch": "master",
+    "commitMessage": "chore: release v${version}"
+  },
+  "hooks": {
+    "before:init": [
+      "git pull",
+      "npm run lint"
+    ],
+    "after:bump": "npx auto-changelog -p"
+  }
+}
