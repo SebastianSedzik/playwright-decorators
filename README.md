@@ -17,7 +17,7 @@ import { suite, test } from 'playwright-decorators';
 @suite()  // <-- Decorate class with @suite
 class MyTestSuite {
   @test()  // <-- Decorate test method with @test
-  async myTest() {
+  async myTest({ page }) {
     // ...
   }
 }
