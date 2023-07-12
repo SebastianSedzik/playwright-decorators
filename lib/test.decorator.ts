@@ -16,21 +16,12 @@ class TestDecorator implements TestDecoratorOptions {
     Object.assign(this, options);
   }
 
-  private wrapTest(testCode: () => Promise<any>, wrapperCode: (args: (() => Promise<any>)) => Promise<any>) {
-    return new Proxy(testCode, {
-      apply: (target: any, thisArg: any, argArray: any[]) =>
-          wrapperCode(() => target.apply(thisArg, argArray))
-      })
-  }
-
-  private runTest(userTestCode: () => Promise<any>) {
-    return userTestCode();
-  }
-
   run(executionContext: any) {
-    const testCallback = this.wrapTest(this.testMethod, this.runTest).bind(executionContext);
-
-    playwright(this.name, testCallback);
+    // playwright function do not accept ...rest arguments, so we need to request all of them and pass to the testMethod manually
+    playwright(this.name, ({playwright, context, browserName, browser, contextOptions, connectOptions, page, testIdAttribute, launchOptions, defaultBrowserType, baseURL, channel, acceptDownloads, bypassCSP, deviceScaleFactor, extraHTTPHeaders, httpCredentials, ignoreHTTPSErrors, geolocation, hasTouch, headless, isMobile, javaScriptEnabled, locale, navigationTimeout, actionTimeout, offline, permissions, proxy, request, serviceWorkers, screenshot, trace, storageState, timezoneId, video, viewport, userAgent, colorScheme
+                           }, ...args) => {
+      return this.testMethod.call(executionContext, {playwright, context, browserName, browser, contextOptions, connectOptions, page, testIdAttribute, launchOptions, defaultBrowserType, baseURL, channel, acceptDownloads, bypassCSP, deviceScaleFactor, extraHTTPHeaders, httpCredentials, ignoreHTTPSErrors, geolocation, hasTouch, headless, isMobile, javaScriptEnabled, locale, navigationTimeout, actionTimeout, offline, permissions, proxy, request, serviceWorkers, screenshot, trace, storageState, timezoneId, video, viewport, userAgent, colorScheme}, ...args);
+    })
   }
 }
 
@@ -44,7 +35,7 @@ export const test = (options: TestDecoratorOptions = {}) => function(originalMet
   const testDecorator = new TestDecorator(originalMethod, options);
 
   Object.assign(originalMethod, { testDecorator });
-  
+
   (context as ClassMemberDecoratorContext ).addInitializer(function () {
     testDecorator.run(this);
   });
