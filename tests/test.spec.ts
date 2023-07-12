@@ -40,4 +40,8 @@ playwright.describe('@test decorator', () => {
   playwright('Methods without @test should not be run', () => {
     expect(called).toEqual(expect.not.arrayContaining(['notTestMethod']));
   });
+  
+  playwright.afterAll(() => {
+    expect(called.length).toEqual(4);
+  })
 })
