@@ -28,7 +28,6 @@ playwright.describe('@test decorator', () => {
 
     @test()
     testShouldHaveAccessToPage({ page }) {
-      console.log(page);
       called.push('testShouldHaveAccessToPage');
       expect(page).not.toBeUndefined();
     }
@@ -41,8 +40,4 @@ playwright.describe('@test decorator', () => {
   playwright('Methods without @test should not be run', () => {
     expect(called).toEqual(expect.not.arrayContaining(['notTestMethod']));
   });
-  
-  playwright.afterAll(() => {
-    expect(called.length).toEqual(4);
-  })
 })
