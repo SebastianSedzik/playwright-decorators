@@ -1,4 +1,5 @@
 import playwright from '@playwright/test';
+import {decoratePlaywrightTest, TestDecoratorFunction} from "./helpers";
 
 interface TestDecoratorOptions {
   /**
@@ -15,13 +16,22 @@ class TestDecorator implements TestDecoratorOptions {
     
     Object.assign(this, options);
   }
-
+  
+  /**
+   * Run playwright.test function using all collected data.
+   */
   run(executionContext: any) {
-    // playwright function do not accept ...rest arguments, so we need to request all of them and pass to the testMethod manually
-    playwright(this.name, ({playwright, context, browserName, browser, contextOptions, connectOptions, page, testIdAttribute, launchOptions, defaultBrowserType, baseURL, channel, acceptDownloads, bypassCSP, deviceScaleFactor, extraHTTPHeaders, httpCredentials, ignoreHTTPSErrors, geolocation, hasTouch, headless, isMobile, javaScriptEnabled, locale, navigationTimeout, actionTimeout, offline, permissions, proxy, request, serviceWorkers, screenshot, trace, storageState, timezoneId, video, viewport, userAgent, colorScheme
-                           }, ...args) => {
-      return this.testMethod.call(executionContext, {playwright, context, browserName, browser, contextOptions, connectOptions, page, testIdAttribute, launchOptions, defaultBrowserType, baseURL, channel, acceptDownloads, bypassCSP, deviceScaleFactor, extraHTTPHeaders, httpCredentials, ignoreHTTPSErrors, geolocation, hasTouch, headless, isMobile, javaScriptEnabled, locale, navigationTimeout, actionTimeout, offline, permissions, proxy, request, serviceWorkers, screenshot, trace, storageState, timezoneId, video, viewport, userAgent, colorScheme}, ...args);
-    })
+    const decoratedTest: TestDecoratorFunction = (testFunction) => (...args) => {
+      // set correct executionContext (test class)
+      return testFunction.call(executionContext, ...args);
+    };
+
+    const decoratedTestMethod = decoratePlaywrightTest(
+      this.testMethod,
+      decoratedTest
+    );
+
+    playwright(this.name, decoratedTestMethod);
   }
 }
 
@@ -29,7 +39,10 @@ export type TestDecoratedMethod = { testDecorator: TestDecorator };
 
 /**
  * Mark method as test.
- * Method class should be marked with @suite decorator
+ * Decorator creates a `test` block and runs method inside it.
+ * Target class should be marked by @suite decorator.
+ *
+ * Behaviour of decorator can be modified by other decorators using injected `testDecorator` property.
  */
 export const test = (options: TestDecoratorOptions = {}) => function(originalMethod: any, context: any) {
   const testDecorator = new TestDecorator(originalMethod, options);

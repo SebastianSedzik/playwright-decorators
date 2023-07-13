@@ -5,7 +5,11 @@ const config = {
     entries: [
         {
             filePath: './lib/index.ts',
-            outFile: './dist/index.d.ts'
+            outFile: './dist/index.d.ts',
+            output: {
+                exportReferencedTypes: false,
+                noBanner: true
+            }
         }
     ]
 };
