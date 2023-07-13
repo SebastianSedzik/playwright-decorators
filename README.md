@@ -24,15 +24,36 @@ class MyTestSuite {
 ```
 
 ## 📝 Documentation
-### `@suite()`, `@suite(options)` => `describe()`
-Mark class as a test suite.
-Runs all class methods decorated by `@test` inside `options.name` context (`describe(options.name, all_methods_decorated_by_@test`).
+### Creating a test suite: `@suite(options?)`
+Decorate a class with `@suite()` or `@suite(options)` to create a test suite.
+Under the hood, decorator creates a `describe` block and runs all methods decorated by `@test` inside it.
+
+```ts
+import { suite } from 'playwright-decorators';
+
+@suite() // <-- Decorate class with @suite() or @suite(options)
+class MyTestSuite {
+  // ...
+}
+```
 
 #### Options
 - `name` (optional) - name of the test suite. By default, name of the class.
 
-### `@test()`, `@test(options)` => `test()`
-Mark method as a test. Run method using `test(option.name, method)`.
+### Creating a test: `@test(options?)`
+You can create a test by decorating a method with `@test()` or `@test(options)` decorator.
+
+```ts
+import { suite, test } from 'playwright-decorators';
+
+@suite()
+class MyTestSuite {
+  @test() // <-- Decorate test method with @test() or @test(options)
+  async myTest({ page }) {
+    // ...
+  }
+}
+```
 
 #### Options
 - `name` (optional) - name of the test. By default, name of the method.
