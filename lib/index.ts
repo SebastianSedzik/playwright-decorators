@@ -1,2 +1,2 @@
-export * from './suite.decorator';
-export * from './test.decorator';
+export { suite } from './suite.decorator';
+export { test } from './test.decorator';
