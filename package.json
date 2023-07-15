@@ -1,12 +1,20 @@
 {
   "name": "playwright-decorators",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Decorators for writing Playwright based tests.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "author": "SebastianSedzik@gmail.com",
   "license": "MIT",
-  "keywords": ["playwright", "test", "decorators", "typescript", "ts", "ts-decorators", "playwright-decorators"],
+  "keywords": [
+    "playwright",
+    "test",
+    "decorators",
+    "typescript",
+    "ts",
+    "ts-decorators",
+    "playwright-decorators"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/SebastianSedzik/playwright-decorators.git"
