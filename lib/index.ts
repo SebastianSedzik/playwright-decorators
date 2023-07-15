@@ -8,3 +8,4 @@ export { afterAll } from './afterAll.decorator';
 export { afterEach } from './afterEach.decorator';
 // annotations
 export { skip } from './skip.decorator';
+export { slow } from './slow.decorator';
