@@ -5,7 +5,12 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "author": "SebastianSedzik@gmail.com",
-  "license": "ISC",
+  "license": "MIT",
+  "keywords": ["playwright", "test", "decorators", "typescript", "ts", "ts-decorators", "playwright-decorators"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SebastianSedzik/playwright-decorators.git"
+  },
   "files": [
     "dist"
   ],
@@ -43,6 +48,7 @@
     "vite-plugin-esmodule": "1.5.0"
   },
   "peerDependencies": {
-    "@playwright/test": ">=1.35.1 && <2.0.0"
+    "@playwright/test": ">=1.35.1 && <2.0.0",
+    "typescript": ">=5.1.6"
   }
 }
