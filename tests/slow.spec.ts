@@ -1,9 +1,10 @@
 import playwright, {expect} from "@playwright/test";
 import {suite, test, slow, beforeAll} from "../lib";
 
-const mockSlow = (cb) => {
+const mockSlow = (cb: (...args: any[]) => void) => {
   const originalSlow = playwright.slow;
-  
+
+  // @ts-ignore
   playwright.slow = (...args) => {
     cb(...args);
   }
@@ -18,6 +19,8 @@ playwright.describe('@slow decorator', () => {
     const called: string[] = [];
     const cleanup = mockSlow(() => called.push('playwright.slow()'));
 
+    playwright.afterAll(() => cleanup());
+
     @slow()
     @suite()
     class withSlowSuite {
@@ -31,17 +34,21 @@ playwright.describe('@slow decorator', () => {
         called.push('slowTest2');
       }
     }
-    
+
     playwright('@slow decorator should call playwright.slow() before calling tests', () => {
       expect(called).toEqual(['playwright.slow()', 'slowTest', 'slowTest2']);
     });
-
-    cleanup();
   });
   
   playwright.describe('with @test', () => {
     const called: string[] = [];
-    const cleanup = mockSlow(() => called.push('playwright.slow()'));
+    let cleanup: () => void;
+
+    playwright.beforeAll(() => {
+      cleanup = mockSlow(() => called.push('playwright.slow()'));
+    });
+
+    playwright.afterAll(() => cleanup());
 
     @suite()
     class withSlowTestSuite {
@@ -65,7 +72,5 @@ playwright.describe('@slow decorator', () => {
     playwright('@slow decorator should call playwright.slow() before decorated test', () => {
       expect(called).toEqual(['test', 'playwright.slow()', 'slowTest', 'test2']);
     })
-
-    cleanup();
   });
 });
