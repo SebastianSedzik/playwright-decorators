@@ -118,3 +118,29 @@ class MyTestSuite {
   }
 }
 ```
+
+### Skip test or suite: `@skip(reason?: string)`
+Skip single method or test suite.
+
+```ts
+import { suite, test, skip } from 'playwright-decorators';
+
+// Skip test suite
+@skip() // <-- Decorate suite with @skip()
+@suite()
+class SkippedTestSuite {
+}
+
+// Or skip selected test
+@suite()
+class MyTestSuite {
+  @skip() // <-- Decorate test with @skip()
+  @test()
+  async skippedTest({ page }) {
+    // ...
+  }
+}
+```
+
+#### Options
+- `reason` (optional) - reason of skipping. Will be displayed in the test report.

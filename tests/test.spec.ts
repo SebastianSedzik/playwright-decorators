@@ -1,5 +1,5 @@
 import playwright, {expect} from "@playwright/test";
-import {suite, test} from "../lib";
+import {skip, suite, test} from "../lib";
 
 playwright.describe('@test decorator', () => {
   const called: string[] = [];
@@ -43,5 +43,28 @@ playwright.describe('@test decorator', () => {
   
   playwright.afterAll(() => {
     expect(called.length).toEqual(4);
+  })
+
+  playwright.describe('with @skip', () => {
+    const called: string[] = [];
+
+    @suite()
+    class withSkipSuite {
+      @test()
+      test() {
+        called.push('test')
+      }
+      
+      @skip()
+      @test()
+      skippedTest() {
+        called.push('skippedTest')
+      }
+    }
+    
+    playwright('should not run skipped tests', () => {
+      expect(called).toContain('test');
+      expect(called).not.toContain('skippedTest');
+    })
   })
 })

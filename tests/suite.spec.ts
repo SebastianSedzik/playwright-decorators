@@ -1,28 +1,44 @@
-import { suite } from '../lib';
+import {skip, suite, test} from '../lib';
 import playwright, {expect} from '@playwright/test';
 
 playwright.describe('@suite decorator', () => {
-  let withSuiteDecoratorRun = false;
-  let withoutSuiteDecoratorRun = false;
-
-  @suite()
-  class WithSuiteDecorator {
-    constructor() {
-      withSuiteDecoratorRun = true;
+  playwright.describe('Class with @suite should be initialized', () => {
+    const called: string[] = [];
+    
+    @suite()
+    class WithSuiteDecorator {
+      constructor() {
+        called.push('constructor');
+      }
     }
-  }
 
-  class WithoutSuiteDecorator {
-    constructor() {
-      withoutSuiteDecoratorRun = true;
-    }
-  }
-  
-  playwright('Class with @suite should be initialized', () => {
-    expect(withSuiteDecoratorRun).toBeTruthy();
+    expect(called).toContain('constructor');
   });
 
   playwright('Class without @suite should not be initialized', () => {
-    expect(withoutSuiteDecoratorRun).toBeFalsy();
+    const called: string[] = [];
+    
+    class WithoutSuiteDecorator {
+      constructor() {
+        called.push('constructor');
+      }
+    }
+    
+    expect(called).not.toContain('constructor');
+  });
+
+  playwright.describe('Class with @suite & @skip should not run any tests', () => {
+    const called: string[] = [];
+
+    @skip()
+    @suite()
+    class WithSuiteDecorator {
+      @test()
+      testMethod() {
+        called.push('testMethod');
+      }
+    }
+
+    expect(called).not.toContain(['testMethod']);
   });
 })
