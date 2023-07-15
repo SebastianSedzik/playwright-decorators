@@ -61,9 +61,11 @@ playwright.describe('@slow decorator', () => {
         called.push('test2');
       }
     }
-    
+
     playwright('@slow decorator should call playwright.slow() before decorated test', () => {
       expect(called).toEqual(['test', 'playwright.slow()', 'slowTest', 'test2']);
     })
+
+    cleanup();
   });
 });

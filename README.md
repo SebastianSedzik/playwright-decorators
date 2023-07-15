@@ -167,6 +167,7 @@ class MyTestSuite {
     // ...
   }
 }
+```
 
 #### Options
 - `reason` (optional) - reason of marking as "slow". Will be displayed in the test report.
