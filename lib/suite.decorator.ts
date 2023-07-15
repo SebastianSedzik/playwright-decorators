@@ -11,11 +11,17 @@ interface SuiteDecoratorOptions {
    * Skip suite (with optional reason)
    */
   skip?: string | boolean;
+  /**
+   * Mark suite as "slow" (with optional reason).
+   * Slow test will be given triple the default timeout.
+   */
+  slow?: string | boolean;
 }
 
 class SuiteDecorator implements SuiteDecoratorOptions {
   name: string;
   skip: string | boolean = false;
+  slow: string | boolean = false;
 
   constructor(private suiteClass: Constructor, options: SuiteDecoratorOptions) {
     this.name = suiteClass.name;
@@ -35,8 +41,21 @@ class SuiteDecorator implements SuiteDecoratorOptions {
     playwright.skip();
   }
 
+  private handleSlow() {
+    if (this.slow === false) {
+      return;
+    }
+
+    if (typeof this.skip === 'string') {
+      return playwright.slow(true, this.skip);
+    }
+    
+    return playwright.slow();
+  }
+
   private runSuite(userSuiteCode: () => Promise<any>) {
     this.handleSkip();
+    this.handleSlow();
 
     return userSuiteCode();
   }

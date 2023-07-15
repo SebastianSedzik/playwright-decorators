@@ -10,11 +10,17 @@ interface TestDecoratorOptions {
    * Skip suite (with optional reason)
    */
   skip?: string | boolean;
+  /**
+   * Mark test as "slow" (with optional reason).
+   * Slow test will be given triple the default timeout.
+   */
+  slow?: string | boolean;
 }
 
 class TestDecorator implements TestDecoratorOptions {
   name: string;
   skip: string | boolean = false;
+  slow: string | boolean = false;
 
   constructor(private testMethod: any, options: TestDecoratorOptions) {
     this.name = testMethod.name;
@@ -33,6 +39,18 @@ class TestDecorator implements TestDecoratorOptions {
 
     playwright.skip();
   }
+
+  private handleSlow() {
+    if (this.slow === false) {
+      return;
+    }
+    
+    if (typeof this.skip === 'string') {
+      return playwright.slow(true, this.skip);
+    }
+    
+    return playwright.slow();
+  }
   
   /**
    * Run playwright.test function using all collected data.
@@ -40,6 +58,7 @@ class TestDecorator implements TestDecoratorOptions {
   run(executionContext: any) {
     const decoratedTest: TestDecoratorFunction = (testFunction) => (...args) => {
       this.handleSkip();
+      this.handleSlow();
 
       // set correct executionContext (test class)
       return testFunction.call(executionContext, ...args);

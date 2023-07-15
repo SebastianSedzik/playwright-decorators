@@ -144,3 +144,29 @@ class MyTestSuite {
 
 #### Options
 - `reason` (optional) - reason of skipping. Will be displayed in the test report.
+
+### Mark test or suite as "slow": `@slow(reason?: string)`
+Mark single method or test suite as "slow".
+Slow test will be given triple the default timeout.
+
+```ts
+import { suite, test, skip } from 'playwright-decorators';
+
+// Mark test suite as "slow"
+@slow() // <-- Decorate suite with @slow()
+@suite()
+class SlowTestSuite {
+}
+
+// Or mark selected test as "slow"
+@suite()
+class MyTestSuite {
+  @slow() // <-- Decorate test with @slow()
+  @test()
+  async slowTest({ page }) {
+    // ...
+  }
+}
+
+#### Options
+- `reason` (optional) - reason of marking as "slow". Will be displayed in the test report.
