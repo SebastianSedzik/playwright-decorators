@@ -6,10 +6,15 @@ interface TestDecoratorOptions {
    * Name of the test. Default: name of the method
    */
   name?: string;
+  /**
+   * Skip suite (with optional reason)
+   */
+  skip?: string | boolean;
 }
 
 class TestDecorator implements TestDecoratorOptions {
   name: string;
+  skip: string | boolean = false;
 
   constructor(private testMethod: any, options: TestDecoratorOptions) {
     this.name = testMethod.name;
@@ -17,11 +22,25 @@ class TestDecorator implements TestDecoratorOptions {
     Object.assign(this, options);
   }
   
+  private handleSkip() {
+    if (this.skip === false) {
+      return;
+    }
+
+    if (typeof this.skip === 'string') {
+      return playwright.skip(true, this.skip);
+    }
+
+    playwright.skip();
+  }
+  
   /**
    * Run playwright.test function using all collected data.
    */
   run(executionContext: any) {
     const decoratedTest: TestDecoratorFunction = (testFunction) => (...args) => {
+      this.handleSkip();
+
       // set correct executionContext (test class)
       return testFunction.call(executionContext, ...args);
     };

@@ -7,18 +7,37 @@ interface SuiteDecoratorOptions {
    * Name of the suite. Default: name of the suite class
    */
   name?: string;
+  /**
+   * Skip suite (with optional reason)
+   */
+  skip?: string | boolean;
 }
 
 class SuiteDecorator implements SuiteDecoratorOptions {
   name: string;
+  skip: string | boolean = false;
 
   constructor(private suiteClass: Constructor, options: SuiteDecoratorOptions) {
     this.name = suiteClass.name;
 
     Object.assign(this, options);
   }
+  
+  private handleSkip() {
+    if (this.skip === false) {
+      return;
+    }
+    
+    if (typeof this.skip === 'string') {
+      return playwright.skip(true, this.skip);
+    }
+    
+    playwright.skip();
+  }
 
   private runSuite(userSuiteCode: () => Promise<any>) {
+    this.handleSkip();
+
     return userSuiteCode();
   }
   
