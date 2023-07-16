@@ -22,7 +22,7 @@ jobs:
           node-version: '18.x'
           cache: 'npm'
       - run: npm ci
-      - run: npx playwright install
-      - run: npm run build
+      - run: npx playwright install chromium
       - run: npm run lint
+      - run: npm run build
       - run: npm test
