@@ -15,12 +15,18 @@ interface TestDecoratorOptions {
    * Slow test will be given triple the default timeout.
    */
   slow?: string | boolean;
+  /**
+   * Declares a focused test.
+   * If there are some focused @test(s) or @suite(s), all of them will be run but nothing else.
+   */
+  only?: boolean;
 }
 
 class TestDecorator implements TestDecoratorOptions {
   name: string;
   skip: string | boolean = false;
   slow: string | boolean = false;
+  only = false;
 
   constructor(private testMethod: any, options: TestDecoratorOptions) {
     this.name = testMethod.name;
@@ -69,7 +75,9 @@ class TestDecorator implements TestDecoratorOptions {
       decoratedTest
     );
 
-    playwright(this.name, decoratedTestMethod);
+    const playwrightRunTest = this.only ? playwright.only : playwright;
+
+    playwrightRunTest(this.name, decoratedTestMethod);
   }
 }
 

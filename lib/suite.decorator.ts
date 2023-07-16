@@ -16,12 +16,18 @@ interface SuiteDecoratorOptions {
    * Slow test will be given triple the default timeout.
    */
   slow?: string | boolean;
+  /**
+   * Declares a focused suite.
+   * If there are some focused @test(s) or @suite(s), all of them will be run but nothing else.
+   */
+  only?: boolean;
 }
 
 class SuiteDecorator implements SuiteDecoratorOptions {
   name: string;
   skip: string | boolean = false;
   slow: string | boolean = false;
+  only = false;
 
   constructor(private suiteClass: Constructor, options: SuiteDecoratorOptions) {
     this.name = suiteClass.name;
@@ -64,7 +70,11 @@ class SuiteDecorator implements SuiteDecoratorOptions {
    * Run playwright.describe function using all collected data.
    */
   run() {
-    playwright.describe(this.name, () => {
+    const playwrightRunSuite = this.only ? playwright.describe.only : playwright.describe;
+    
+    console.log(this.only ? 'playwright.describe.only' : 'playwright.describe')
+
+    playwrightRunSuite(this.name, () => {
       return this.runSuite(() => new this.suiteClass())
     });
   }
