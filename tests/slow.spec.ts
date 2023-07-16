@@ -1,23 +1,11 @@
 import playwright, {expect} from "@playwright/test";
-import {suite, test, slow, beforeAll} from "../lib";
-
-const mockSlow = (cb: (...args: any[]) => void) => {
-  const originalSlow = playwright.slow;
-
-  // @ts-ignore
-  playwright.slow = (...args) => {
-    cb(...args);
-  }
-
-  return () => {
-    playwright.slow = originalSlow;
-  }
-}
+import {suite, test, slow, beforeAll, only} from "../lib";
+import { mockFn } from './__mocks__/mockFn';
 
 playwright.describe('@slow decorator', () => {
   playwright.describe('with @suite', () => {
     const called: string[] = [];
-    const cleanup = mockSlow(() => called.push('playwright.slow()'));
+    const cleanup = mockFn(playwright, 'slow', () => called.push('playwright.slow()'));
 
     playwright.afterAll(() => cleanup());
 
@@ -45,7 +33,7 @@ playwright.describe('@slow decorator', () => {
     let cleanup: () => void;
 
     playwright.beforeAll(() => {
-      cleanup = mockSlow(() => called.push('playwright.slow()'));
+      cleanup = mockFn(playwright, 'slow', () => called.push('playwright.slow()'));
     });
 
     playwright.afterAll(() => cleanup());
@@ -62,7 +50,7 @@ playwright.describe('@slow decorator', () => {
       async slowTest() {
         called.push('slowTest');
       }
-      
+
       @test()
       async test2() {
         called.push('test2');

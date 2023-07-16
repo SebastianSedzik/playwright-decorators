@@ -171,3 +171,27 @@ class MyTestSuite {
 
 #### Options
 - `reason` (optional) - reason of marking as "slow". Will be displayed in the test report.
+
+### Run only selected test(s) or suite(s): `@only()`
+Declares a focused test or suite.
+If there are some focused tests or suites, all of them will be run but nothing else.
+
+```ts
+import { suite, test, only } from 'playwright-decorators';
+
+// Run only selected test suite(s)
+@only() // <-- Decorate suite with @only()
+@suite()
+class FocusedTestSuite {
+}
+
+// Or run only selected test(s)
+@suite()
+class TestSuite {
+    @only() // <-- Decorate test with @only()
+    @test()
+    async focusedTest({ page }) {
+        // ...
+    }
+}
+```
