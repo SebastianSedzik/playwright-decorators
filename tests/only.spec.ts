@@ -6,12 +6,13 @@ playwright.describe('@only decorator', () => {
   playwright.describe('with @suite', () => {
     const called: string[] = [];
     const cleanup = mockFn(playwright.describe, 'only', () => called.push('playwright.describe.only()'));
-
+    
     playwright.afterAll(() => cleanup());
-
+    
     @only()
     @suite()
-    class FocusedSuite {}
+    class FocusedSuite {
+    }
     
     // Unfortunately, we cannot call real `playwright.describe.only()` because other tests will not be run, so call needs to be mocked.
     // As the result, we can only check if mocked `playwright.describe.only` was called.
@@ -27,9 +28,9 @@ playwright.describe('@only decorator', () => {
       called.push('playwright.only()');
       test();
     });
-
+    
     playwright.afterAll(() => cleanup());
-
+    
     @suite()
     class FocusedSuite {
       @only()
@@ -52,7 +53,8 @@ playwright.describe('@only decorator', () => {
     
     // Unfortunately, we cannot call real `playwright.only()` because other tests will not be run, so call needs to be mocked.
     // As the result, we can only check if mocked `playwright.only` was called.
-    expect(called).toEqual(['playwright.only()', 'focusedTest', 'playwright.only()', 'focusedTest2', 'test']); // playwright.only() is called before @only tests: focusedTest & focusedTest2, but not before test
+    playwright('@only decorator should run `playwright.only()` before each decorated test', () => {
+      expect(called).toEqual(['playwright.only()', 'focusedTest', 'playwright.only()', 'focusedTest2', 'test']); // playwright.only() is called before @only tests: focusedTest & focusedTest2, but not before test
       cleanup();
     });
   });

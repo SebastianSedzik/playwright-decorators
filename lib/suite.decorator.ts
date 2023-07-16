@@ -71,8 +71,6 @@ class SuiteDecorator implements SuiteDecoratorOptions {
    */
   run() {
     const playwrightRunSuite = this.only ? playwright.describe.only : playwright.describe;
-    
-    console.log(this.only ? 'playwright.describe.only' : 'playwright.describe')
 
     playwrightRunSuite(this.name, () => {
       return this.runSuite(() => new this.suiteClass())
