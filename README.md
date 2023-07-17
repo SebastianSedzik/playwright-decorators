@@ -25,7 +25,7 @@ class MyTestSuite {
 
 ## 📝 Documentation
 ### Creating a test suite: `@suite(options?)`
-Decorate a class with `@suite()` or `@suite(options)` to create a test suite.
+Mark class as test suite.
 Under the hood, decorator creates a `describe` block and runs all methods decorated by `@test` inside it.
 
 ```ts
@@ -41,7 +41,7 @@ class MyTestSuite {
 - `name` (optional) - name of the test suite. By default, name of the class.
 
 ### Creating a test: `@test(options?)`
-Mark class method as test by decorating it with `@test()` or `@test(options)` decorator.
+Mark class method as test.
 Under the hood, decorator creates a `test` block and runs the method inside it.
 
 ```ts
@@ -120,7 +120,7 @@ class MyTestSuite {
 ```
 
 ### Skip test or suite: `@skip(reason?: string)`
-Skip single method or test suite.
+Skip single `@test` or `@suite`.
 
 ```ts
 import { suite, test, skip } from 'playwright-decorators';
@@ -146,7 +146,7 @@ class MyTestSuite {
 - `reason` (optional) - reason of skipping. Will be displayed in the test report.
 
 ### Mark test or suite as "slow": `@slow(reason?: string)`
-Mark single method or test suite as "slow".
+Mark single `@test` or `@suite` as "slow".
 Slow test will be given triple the default timeout.
 
 ```ts
@@ -173,7 +173,7 @@ class MyTestSuite {
 - `reason` (optional) - reason of marking as "slow". Will be displayed in the test report.
 
 ### Run only selected test(s) or suite(s): `@only()`
-Declares a focused test or suite.
+Declares a focused `@test` or `@suite`.
 If there are some focused tests or suites, all of them will be run but nothing else.
 
 ```ts
@@ -197,7 +197,7 @@ class TestSuite {
 ```
 
 ### Run test(s) or suite(s) with certain tag(s): `@tag(tags: string[])`
-Declares a @test or @suite with certain tag(s).
+Adds tags to `@test` or `@suite`.
 You can later run test(s) or suite(s) with specific tag, using `npx playwright test --grep "@nameOfTag"` command.
 For example: to run tests/suites with `x` tag, please run `npx playwright test --grep "@x"`
 

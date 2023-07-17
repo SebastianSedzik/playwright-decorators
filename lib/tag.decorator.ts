@@ -2,7 +2,7 @@ import {SuiteDecoratedMethod} from "./suite.decorator";
 import {TestDecoratedMethod} from "./test.decorator";
 
 /**
- * Declares a @test or @suite with certain tag(s).
+ * Adds tags to `@test` or `@suite`.
  * You can later run test(s) or suite(s) with specific tag, using `npx playwright test --grep "@nameOfTag"` command.
  * For example: to run tests/suites with `x` tag, please run `npx playwright test --grep "@x"`
  */
