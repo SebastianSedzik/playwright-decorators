@@ -195,3 +195,36 @@ class TestSuite {
     }
 }
 ```
+
+### Run test(s) or suite(s) with certain tag(s): `@tag(tags: string[])`
+Declares a @test or @suite with certain tag(s).
+You can later run test(s) or suite(s) with specific tag, using `npx playwright test --grep "@nameOfTag"` command.
+For example: to run tests/suites with `x` tag, please run `npx playwright test --grep "@x"`
+
+```ts
+import { suite, test, tag } from 'playwright-decorators';
+
+// Run only selected test suite(s)
+@tag(['x-api-consumer']) // <-- Decorate suite with @tag()
+@suite()
+class ApiConsumerTestSuite {
+}
+
+// Or run only selected test(s)
+@suite()
+class TestSuite {
+    @tag(['x-api-consumer']) // <-- Decorate test with @tag()
+    @test()
+    async apiConsumerTest({ page }) {
+        // ...
+    }
+}
+```
+
+To run test(s) or suite(s) for `x-api-consumer` tag (example above), please type and run below command:
+```shell
+npx playwright test --grep "@x-api-consumer"
+``` 
+
+#### Options
+- `tags` (required) - array of tags. (Tags should not be prefixed with `@` sign, as sign will be automatically added to every tag by `@tag` decorator).
