@@ -16,6 +16,12 @@ interface TestDecoratorOptions {
    */
   slow?: string | boolean;
   /**
+   * Marks a test as "should fail".
+   * Playwright Test runs this test and ensures that it is actually failing.
+   * This is useful for documentation purposes to acknowledge that some functionality is broken until it is fixe
+   */
+  fail?: string | boolean
+  /**
    * Declares a focused test.
    * If there are some focused @test(s) or @suite(s), all of them will be run but nothing else.
    */
@@ -26,6 +32,7 @@ class TestDecorator implements TestDecoratorOptions {
   name: string;
   skip: string | boolean = false;
   slow: string | boolean = false;
+  fail: string | boolean = false;
   only = false;
 
   constructor(private testMethod: any, options: TestDecoratorOptions) {
@@ -58,6 +65,18 @@ class TestDecorator implements TestDecoratorOptions {
     return playwright.slow();
   }
   
+  private handleFail() {
+    if (this.fail === false) {
+      return;
+    }
+
+    if (typeof this.fail === 'string') {
+      return playwright.fail(true, this.fail);
+    }
+
+    return playwright.fail();
+  }
+  
   /**
    * Run playwright.test function using all collected data.
    */
@@ -65,6 +84,7 @@ class TestDecorator implements TestDecoratorOptions {
     const decoratedTest: TestDecoratorFunction = (testFunction) => (...args) => {
       this.handleSkip();
       this.handleSlow();
+      this.handleFail();
 
       // set correct executionContext (test class)
       return testFunction.call(executionContext, ...args);

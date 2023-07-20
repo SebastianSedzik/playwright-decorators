@@ -40,6 +40,7 @@ class MyTestSuite {
 #### Options
 - `name` (optional) - name of the test suite. By default, name of the class.
 
+
 ### Creating a test: `@test(options?)`
 Mark class method as test.
 Under the hood, decorator creates a `test` block and runs the method inside it.
@@ -59,6 +60,7 @@ class MyTestSuite {
 #### Options
 - `name` (optional) - name of the test. By default, name of the method.
 
+
 ### Run method before all test in the suite: `@beforeAll()`
 Mark method as `beforeAll` book.
 
@@ -73,6 +75,7 @@ class MyTestSuite {
   }
 }
 ```
+
 
 ### Run method before each test in the suite: `@beforeEach()`
 Mark method as `beforeEach` book.
@@ -89,6 +92,7 @@ class MyTestSuite {
 }
 ```
 
+
 ### Run method after all test in the suite: `@afterAll()`
 Mark method as `afterAll` book.
 
@@ -104,6 +108,7 @@ class MyTestSuite {
 }
 ```
 
+
 ### Run method after each test in the suite: `@afterEach()`
 Mark method as `afterEach` book.
 
@@ -118,6 +123,7 @@ class MyTestSuite {
   }
 }
 ```
+
 
 ### Skip test or suite: `@skip(reason?: string)`
 Skip single `@test` or `@suite`.
@@ -144,6 +150,29 @@ class MyTestSuite {
 
 #### Options
 - `reason` (optional) - reason of skipping. Will be displayed in the test report.
+
+
+### Mark test as "should fail": `@fail(reason?: string)`
+Mark single `@test` as "should fail".
+Playwright Test runs this test and ensures that it is actually failing.
+This is useful for documentation purposes to acknowledge that some functionality is broken until it is fixed.
+
+```ts
+import { suite, test, fail } from 'playwright-decorators';
+
+@suite()
+class MyTestSuite {
+  @fail() // <-- Decorate test with @fail()
+  @test()
+  async failingTest({ page }) {
+    // ...
+  }
+}
+```
+
+#### Options
+- `reason` (optional) - reason of marking as "should fail". Will be displayed in the test report.
+
 
 ### Mark test or suite as "slow": `@slow(reason?: string)`
 Mark single `@test` or `@suite` as "slow".
@@ -172,6 +201,7 @@ class MyTestSuite {
 #### Options
 - `reason` (optional) - reason of marking as "slow". Will be displayed in the test report.
 
+
 ### Run only selected test(s) or suite(s): `@only()`
 Declares a focused `@test` or `@suite`.
 If there are some focused tests or suites, all of them will be run but nothing else.
@@ -195,6 +225,7 @@ class TestSuite {
     }
 }
 ```
+
 
 ### Run test(s) or suite(s) with certain tag(s): `@tag(tags: string[])`
 Adds tags to `@test` or `@suite`.
