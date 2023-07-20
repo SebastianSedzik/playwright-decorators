@@ -9,6 +9,7 @@ export { afterEach } from './afterEach.decorator';
 // annotations
 export { skip } from './skip.decorator';
 export { slow } from './slow.decorator';
+export { fail } from './fail.decorator';
 export { only } from './only.decorator';
 // helpers
 export { tag } from './tag.decorator';
