@@ -202,6 +202,34 @@ class MyTestSuite {
 - `reason` (optional) - reason of marking as "slow". Will be displayed in the test report.
 
 
+### Mark test or suite as "fixme", with the intention to fix it: `@fixme(reason?: string)`
+Marks a `@test` or `@suite` as "fixme", with the intention to fix (with optional reason).
+Decorated tests or suites will not be run.
+
+```ts
+import { suite, test, fixme } from 'playwright-decorators';
+
+// Mark test suite as "fixme"
+@fixme() // <-- Decorate suite with @fixme()
+@suite()
+class FixmeTestSuite {
+}
+
+// Or mark selected test as "fixme"
+@suite()
+class MyTestSuite {
+  @fixme() // <-- Decorate test with @fixme()
+  @test()
+  async fixmeTest({ page }) {
+    // ...
+  }
+}
+```
+
+#### Options
+- `reason` (optional) - reason of marking as "fixme". Will be displayed in the test report.
+
+
 ### Run only selected test(s) or suite(s): `@only()`
 Declares a focused `@test` or `@suite`.
 If there are some focused tests or suites, all of them will be run but nothing else.
