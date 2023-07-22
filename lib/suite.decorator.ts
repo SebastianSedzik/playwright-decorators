@@ -17,6 +17,17 @@ interface SuiteDecoratorOptions {
    */
   slow?: string | boolean;
   /**
+   * Marks a suite as "should fail".
+   * Playwright Test runs all test from suite and ensures that they are actually failing.
+   * This is useful for documentation purposes to acknowledge that some functionality is broken until it is fixe
+   */
+  fail?: string | boolean
+  /**
+   * Marks a suite as "fixme", with the intention to fix (with optional reason).
+   * Decorated suite will not be run.
+   */
+  fixme?: string | boolean;
+  /**
    * Declares a focused suite.
    * If there are some focused @test(s) or @suite(s), all of them will be run but nothing else.
    */
@@ -27,6 +38,8 @@ class SuiteDecorator implements SuiteDecoratorOptions {
   name: string;
   skip: string | boolean = false;
   slow: string | boolean = false;
+  fail: string | boolean = false;
+  fixme: string | boolean = false;
   only = false;
 
   constructor(private suiteClass: Constructor, options: SuiteDecoratorOptions) {
@@ -58,10 +71,36 @@ class SuiteDecorator implements SuiteDecoratorOptions {
     
     return playwright.slow();
   }
+  
+  private handleFail() {
+    if (this.fail === false) {
+      return;
+    }
+
+    if (typeof this.fail === 'string') {
+      return playwright.fail(true, this.fail);
+    }
+    
+    return playwright.fail();
+  }
+  
+  private handleFixme() {
+    if (this.fixme === false) {
+      return;
+    }
+
+    if (typeof this.fixme === 'string') {
+      return playwright.fixme(true, this.fixme);
+    }
+    
+    return playwright.fixme();
+  }
 
   private runSuite(userSuiteCode: () => Promise<any>) {
     this.handleSkip();
     this.handleSlow();
+    this.handleFail();
+    this.handleFixme();
 
     return userSuiteCode();
   }

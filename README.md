@@ -152,14 +152,21 @@ class MyTestSuite {
 - `reason` (optional) - reason of skipping. Will be displayed in the test report.
 
 
-### Mark test as "should fail": `@fail(reason?: string)`
-Mark single `@test` as "should fail".
+### Mark test or suite as "should fail": `@fail(reason?: string)`
+Mark single `@test` or `@suite` as "should fail".
 Playwright Test runs this test and ensures that it is actually failing.
 This is useful for documentation purposes to acknowledge that some functionality is broken until it is fixed.
 
 ```ts
 import { suite, test, fail } from 'playwright-decorators';
 
+// Mark suite as "fail", ensure that all tests from suite fail
+@fail() // <-- Decorate suite with @fail()
+@suite()
+class FailTestSuite {
+}
+
+// Or mark selected test as "fail"
 @suite()
 class MyTestSuite {
   @fail() // <-- Decorate test with @fail()
@@ -172,6 +179,34 @@ class MyTestSuite {
 
 #### Options
 - `reason` (optional) - reason of marking as "should fail". Will be displayed in the test report.
+
+
+### Mark test or suite as "fixme", with the intention to fix it: `@fixme(reason?: string)`
+Marks a `@test` or `@suite` as "fixme", with the intention to fix (with optional reason).
+Decorated tests or suites will not be run.
+
+```ts
+import { suite, test, fixme } from 'playwright-decorators';
+
+// Mark test suite as "fixme"
+@fixme() // <-- Decorate suite with @fixme()
+@suite()
+class FixmeTestSuite {
+}
+
+// Or mark selected test as "fixme"
+@suite()
+class MyTestSuite {
+  @fixme() // <-- Decorate test with @fixme()
+  @test()
+  async fixmeTest({ page }) {
+    // ...
+  }
+}
+```
+
+#### Options
+- `reason` (optional) - reason of marking as "fixme". Will be displayed in the test report.
 
 
 ### Mark test or suite as "slow": `@slow(reason?: string)`

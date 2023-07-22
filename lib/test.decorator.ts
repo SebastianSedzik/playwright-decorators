@@ -22,6 +22,11 @@ interface TestDecoratorOptions {
    */
   fail?: string | boolean
   /**
+   * Marks a test as "fixme", with the intention to fix (with optional reason).
+   * Decorated test will not be run.
+   */
+  fixme?: string | boolean;
+  /**
    * Declares a focused test.
    * If there are some focused @test(s) or @suite(s), all of them will be run but nothing else.
    */
@@ -33,6 +38,7 @@ class TestDecorator implements TestDecoratorOptions {
   skip: string | boolean = false;
   slow: string | boolean = false;
   fail: string | boolean = false;
+  fixme: string | boolean = false;
   only = false;
 
   constructor(private testMethod: any, options: TestDecoratorOptions) {
@@ -77,6 +83,18 @@ class TestDecorator implements TestDecoratorOptions {
     return playwright.fail();
   }
   
+  private handleFixme() {
+    if (this.fixme === false) {
+      return;
+    }
+
+    if (typeof this.fixme === 'string') {
+      return playwright.fixme(true, this.fixme);
+    }
+
+    return playwright.fixme();
+  }
+
   /**
    * Run playwright.test function using all collected data.
    */
@@ -85,6 +103,7 @@ class TestDecorator implements TestDecoratorOptions {
       this.handleSkip();
       this.handleSlow();
       this.handleFail();
+      this.handleFixme();
 
       // set correct executionContext (test class)
       return testFunction.call(executionContext, ...args);
