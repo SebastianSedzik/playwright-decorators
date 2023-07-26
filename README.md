@@ -297,3 +297,25 @@ npx playwright test --grep "@x-api-consumer"
 
 #### Options
 - `tags` (required) - array of tags. (Tags should not be prefixed with `@` sign, as sign will be automatically added to every tag by `@tag` decorator).
+
+
+### Add custom annotation to test(s): `@annotate({type: string, description?: string})`
+Add custom annotation to a test.
+Annotations are accessible via test.info().annotations. Many reporters show annotations, for example 'html'.
+
+```ts
+import { suite, test, annotation } from 'playwright-decorators';
+
+@suite()
+class MyTestSuite {
+  @annotate({ type: 'issue', description: 'https://github.com/microsoft/playwright/issues/<some-issue>' }) // <-- Decorate test with @annotate()
+  @test()
+  async testWithCustomAnnotation({ page }) {
+    // ...
+  }
+}
+```
+
+#### Options
+- `type` (required) - type of annotation, for example 'skip' or 'fail'.
+- `description` (optional) - description of annotation.
