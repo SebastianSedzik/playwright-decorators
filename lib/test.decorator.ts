@@ -31,6 +31,11 @@ interface TestDecoratorOptions {
    * If there are some focused @test(s) or @suite(s), all of them will be run but nothing else.
    */
   only?: boolean;
+  /**
+   * Add custom annotation to a test.
+   * Annotations are accessible via test.info().annotations. Many reporters show annotations, for example 'html'.
+   */
+  annotations?: {type: string, description?: string}[];
 }
 
 class TestDecorator implements TestDecoratorOptions {
@@ -40,6 +45,7 @@ class TestDecorator implements TestDecoratorOptions {
   fail: string | boolean = false;
   fixme: string | boolean = false;
   only = false;
+  annotations: {type: string, description?: string}[] = [];
 
   constructor(private testMethod: any, options: TestDecoratorOptions) {
     this.name = testMethod.name;
@@ -94,6 +100,12 @@ class TestDecorator implements TestDecoratorOptions {
 
     return playwright.fixme();
   }
+  
+  private handleAnnotations() {
+    this.annotations.forEach(annotation => {
+      playwright.info().annotations.push(annotation);
+    });
+  }
 
   /**
    * Run playwright.test function using all collected data.
@@ -104,6 +116,7 @@ class TestDecorator implements TestDecoratorOptions {
       this.handleSlow();
       this.handleFail();
       this.handleFixme();
+      this.handleAnnotations();
 
       // set correct executionContext (test class)
       return testFunction.call(executionContext, ...args);

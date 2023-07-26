@@ -12,5 +12,6 @@ export { slow } from './slow.decorator';
 export { fail } from './fail.decorator';
 export { fixme } from './fixme.decorator';
 export { only } from './only.decorator';
+export { annotation } from './annotation.decorator';
 // helpers
 export { tag } from './tag.decorator';
