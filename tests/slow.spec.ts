@@ -1,5 +1,5 @@
 import playwright, {expect} from "@playwright/test";
-import {suite, test, slow, beforeAll, only} from "../lib";
+import {suite, test, slow, beforeAll, only, NotSuiteOrTestDecoratedMethodError} from "../lib";
 import { mockFn } from './__mocks__/mockFn';
 
 playwright.describe('@slow decorator', () => {
@@ -60,5 +60,29 @@ playwright.describe('@slow decorator', () => {
     playwright('@slow decorator should call playwright.slow() before decorated test', () => {
       expect(called).toEqual(['test', 'playwright.slow()', 'slowTest', 'test2']);
     })
+  });
+  
+  playwright.describe('without @suite', () => {
+    playwright('should throw NotSuiteOrTestDecoratedMethodError error', () => {
+      try {
+        @slow()
+        class ExampleClass {}
+      } catch (e) {
+        expect(e instanceof NotSuiteOrTestDecoratedMethodError).toBeTruthy();
+      }
+    });
+  });
+  
+  playwright.describe('without @test', () => {
+    playwright('should throw NotSuiteOrTestDecoratedMethodError error', () => {
+      try {
+        class ExampleClass {
+          @slow()
+          exampleMethod() {}
+        }
+      } catch (e) {
+        expect(e instanceof NotSuiteOrTestDecoratedMethodError).toBeTruthy();
+      }
+    });
   });
 });

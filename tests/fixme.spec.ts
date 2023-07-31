@@ -1,5 +1,5 @@
 import playwright, {expect} from "@playwright/test";
-import {suite, test, slow, beforeAll, skip, fixme} from "../lib";
+import {suite, test, fixme, NotSuiteOrTestDecoratedMethodError} from "../lib";
 
 playwright.describe('@fixme decorator', () => {
   playwright.describe('with @suite', () => {
@@ -49,5 +49,29 @@ playwright.describe('@fixme decorator', () => {
     playwright('@fixme decorator should not execute @test method', () => {
       expect(called).not.toContain('fixmeTest');
     })
+  });
+  
+  playwright.describe('without @suite', () => {
+    playwright('should throw NotSuiteOrTestDecoratedMethodError error', () => {
+      try {
+        @fixme()
+        class ExampleClass {}
+      } catch (e) {
+        playwright.expect(e instanceof NotSuiteOrTestDecoratedMethodError).toBeTruthy();
+      }
+    });
+  });
+
+  playwright.describe('without @test', () => {
+    playwright('should throw NotSuiteOrTestDecoratedMethodError error', () => {
+      try {
+        class ExampleClass {
+          @fixme()
+          exampleMethod() {}
+        }
+      } catch (e) {
+        playwright.expect(e instanceof NotSuiteOrTestDecoratedMethodError).toBeTruthy();
+      }
+    });
   });
 });

@@ -1,5 +1,6 @@
-import {SuiteDecoratedMethod} from "./suite.decorator";
-import {TestDecoratedMethod} from "./test.decorator";
+import {isSuiteDecoratedMethod} from "./suite.decorator";
+import {isTestDecoratedMethod} from "./test.decorator";
+import {NotSuiteOrTestDecoratedMethodError} from "./errors";
 
 /**
  * Marks a @test or @suite as "should fail".
@@ -7,13 +8,15 @@ import {TestDecoratedMethod} from "./test.decorator";
  * This is useful for documentation purposes to acknowledge that some functionality is broken until it is fixed.
  */
 export const fail = (reason?: string) => function(originalMethod: any, context?: any) {
-  if ((originalMethod as SuiteDecoratedMethod)?.suiteDecorator) {
+  if (isSuiteDecoratedMethod(originalMethod)) {
     originalMethod.suiteDecorator.fail = reason || true;
     return;
   }
-
-  if ((originalMethod as TestDecoratedMethod)?.testDecorator) {
+  
+  if (isTestDecoratedMethod(originalMethod)) {
     originalMethod.testDecorator.fail = reason || true;
     return;
   }
+  
+  throw new NotSuiteOrTestDecoratedMethodError('fail', originalMethod);
 }

@@ -117,7 +117,11 @@ class SuiteDecorator implements SuiteDecoratorOptions {
   }
 }
 
-export type SuiteDecoratedMethod = { suiteDecorator: SuiteDecorator };
+type SuiteDecoratedMethod = { suiteDecorator: SuiteDecorator };
+
+export function isSuiteDecoratedMethod(method: any): method is SuiteDecoratedMethod {
+  return (method as SuiteDecoratedMethod).suiteDecorator !== undefined;
+}
 
 /**
  * Mark class as test suite.

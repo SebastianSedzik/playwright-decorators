@@ -1,5 +1,5 @@
 import playwright, {expect} from "@playwright/test";
-import {skip, suite, test} from "../lib";
+import {suite, test} from "../lib";
 
 playwright.describe('@test decorator', () => {
   const called: string[] = [];

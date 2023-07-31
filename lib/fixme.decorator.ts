@@ -1,18 +1,21 @@
-import {SuiteDecoratedMethod} from "./suite.decorator";
-import {TestDecoratedMethod} from "./test.decorator";
+import {isSuiteDecoratedMethod} from "./suite.decorator";
+import {isTestDecoratedMethod} from "./test.decorator";
+import {NotSuiteOrTestDecoratedMethodError} from "./errors";
 
 /**
  * Marks a @test or @suite as "fixme", with the intention to fix (with optional reason).
  * Decorated tests or suites will not be run.
  */
 export const fixme = (reason?: string) => function(originalMethod: any, context?: any) {
-  if ((originalMethod as SuiteDecoratedMethod)?.suiteDecorator) {
+  if (isSuiteDecoratedMethod(originalMethod)) {
     originalMethod.suiteDecorator.fixme = reason || true;
     return;
   }
   
-  if ((originalMethod as TestDecoratedMethod)?.testDecorator) {
+  if (isTestDecoratedMethod(originalMethod)) {
     originalMethod.testDecorator.fixme = reason || true;
     return;
   }
+  
+  throw new NotSuiteOrTestDecoratedMethodError('fixme', originalMethod);
 }

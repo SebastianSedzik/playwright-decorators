@@ -1,5 +1,6 @@
 import playwright from '@playwright/test';
 import {decoratePlaywrightTest, TestDecoratorFunction} from "./helpers";
+import {isSuiteDecoratedMethod} from "./suite.decorator";
 
 interface TestDecoratorOptions {
   /**
@@ -133,7 +134,11 @@ class TestDecorator implements TestDecoratorOptions {
   }
 }
 
-export type TestDecoratedMethod = { testDecorator: TestDecorator };
+type TestDecoratedMethod = { testDecorator: TestDecorator };
+
+export function isTestDecoratedMethod(method: any): method is TestDecoratedMethod {
+  return (method as TestDecoratedMethod).testDecorator !== undefined;
+}
 
 /**
  * Mark method as test.
@@ -147,7 +152,7 @@ export const test = (options: TestDecoratorOptions = {}) => function(originalMet
 
   Object.assign(originalMethod, { testDecorator });
 
-  (context as ClassMemberDecoratorContext ).addInitializer(function () {
+  (context as ClassMemberDecoratorContext).addInitializer(function () {
     testDecorator.run(this);
   });
 }
