@@ -1,5 +1,6 @@
-import {SuiteDecoratedMethod} from "./suite.decorator";
-import {TestDecoratedMethod} from "./test.decorator";
+import {isSuiteDecoratedMethod} from "./suite.decorator";
+import {isTestDecoratedMethod} from "./test.decorator";
+import {NotSuiteOrTestDecoratedMethodError} from "./errors";
 
 /**
  * Adds tags to `@test` or `@suite`.
@@ -9,13 +10,15 @@ import {TestDecoratedMethod} from "./test.decorator";
 export const tag = (tags: string[]) => function(originalMethod: any, context?: any) {
   const tagsAsPlaywrightAnnotations = tags.map(tag => `@${tag}`).join(' ');
 
-  if ((originalMethod as SuiteDecoratedMethod)?.suiteDecorator) {
+  if (isSuiteDecoratedMethod(originalMethod)) {
     originalMethod.suiteDecorator.name = `${originalMethod.suiteDecorator.name} ${tagsAsPlaywrightAnnotations}`;
     return;
   }
-
-  if ((originalMethod as TestDecoratedMethod)?.testDecorator) {
+  
+  if (isTestDecoratedMethod(originalMethod)) {
     originalMethod.testDecorator.name = `${originalMethod.testDecorator.name} ${tagsAsPlaywrightAnnotations}`;
     return;
   }
+
+  throw new NotSuiteOrTestDecoratedMethodError('tag', originalMethod);
 }

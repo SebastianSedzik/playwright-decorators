@@ -1,6 +1,6 @@
 import playwright, {expect} from "@playwright/test";
 import {mockFn} from "./__mocks__/mockFn";
-import {suite, tag, test} from "../lib";
+import {fail, NotSuiteOrTestDecoratedMethodError, suite, tag, test} from "../lib";
 
 playwright.describe('@tag decorator', () => {
   playwright.describe('with @suite', () => {
@@ -36,6 +36,30 @@ playwright.describe('@tag decorator', () => {
     playwright('should add @x tag to test name', () => {
       expect(titlePath.join('->')).toContain('testWithTag');
       expect(titlePath.join('->')).toContain('@x');
+    });
+  });
+  
+  playwright.describe('without @suite', () => {
+    playwright('should throw NotSuiteOrTestDecoratedMethodError error', () => {
+      try {
+        @tag(['x'])
+        class ExampleClass {}
+      } catch (e) {
+        playwright.expect(e instanceof NotSuiteOrTestDecoratedMethodError).toBeTruthy();
+      }
+    });
+  });
+  
+  playwright.describe('without @test', () => {
+    playwright('should throw NotSuiteOrTestDecoratedMethodError error', () => {
+      try {
+        class ExampleClass {
+          @tag(['x'])
+          exampleMethod() {}
+        }
+      } catch (e) {
+        playwright.expect(e instanceof NotSuiteOrTestDecoratedMethodError).toBeTruthy();
+      }
     });
   });
 });

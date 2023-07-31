@@ -1,5 +1,5 @@
 import playwright, {expect} from "@playwright/test";
-import {suite, test, only} from "../lib";
+import {suite, test, only, NotSuiteOrTestDecoratedMethodError} from "../lib";
 import {mockFn} from "./__mocks__/mockFn";
 
 playwright.describe('@only decorator', () => {
@@ -56,6 +56,30 @@ playwright.describe('@only decorator', () => {
     playwright('@only decorator should run `playwright.only()` before each decorated test', () => {
       expect(called).toEqual(['playwright.only()', 'focusedTest', 'playwright.only()', 'focusedTest2', 'test']); // playwright.only() is called before @only tests: focusedTest & focusedTest2, but not before test
       cleanup();
+    });
+  });
+  
+  playwright.describe('without @suite', () => {
+    playwright('should throw NotSuiteOrTestDecoratedMethodError',  () => {
+      try {
+        @only()
+        class ExampleClass {}
+      } catch (e) {
+        expect(e instanceof NotSuiteOrTestDecoratedMethodError).toBeTruthy();
+      }
+    });
+  });
+  
+  playwright.describe('without @test', () => {
+    playwright('should throw NotSuiteOrTestDecoratedMethodError',  () => {
+      try {
+        class ExampleClass {
+          @only()
+          async exampleMethod() {}
+        }
+      } catch (e) {
+        expect(e instanceof NotSuiteOrTestDecoratedMethodError).toBeTruthy();
+      }
     });
   });
 });

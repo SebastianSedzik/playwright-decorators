@@ -1,5 +1,5 @@
 import playwright, {expect} from "@playwright/test";
-import {suite, test, slow, beforeAll, skip} from "../lib";
+import {suite, test, slow, beforeAll, skip, NotSuiteOrTestDecoratedMethodError} from "../lib";
 
 playwright.describe('@skip decorator', () => {
   playwright.describe('with @suite', () => {
@@ -49,5 +49,29 @@ playwright.describe('@skip decorator', () => {
     playwright('@skip decorator should not execute @test method', () => {
       expect(called).not.toContain('skippedTest');
     })
+  });
+  
+  playwright.describe('without @suite', () => {
+    playwright('should throw NotSuiteOrTestDecoratedMethodError error', () => {
+      try {
+        @skip()
+        class ExampleClass {}
+      } catch (e) {
+        playwright.expect(e instanceof NotSuiteOrTestDecoratedMethodError).toBeTruthy();
+      }
+    });
+  });
+  
+  playwright.describe('without @test', () => {
+    playwright('should throw NotSuiteOrTestDecoratedMethodError error', () => {
+      try {
+        class ExampleClass {
+          @skip()
+          exampleMethod() {}
+        }
+      } catch (e) {
+        playwright.expect(e instanceof NotSuiteOrTestDecoratedMethodError).toBeTruthy();
+      }
+    });
   });
 });

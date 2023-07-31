@@ -1,5 +1,5 @@
 import playwright, {expect} from "@playwright/test";
-import {suite, test, fail} from "../lib";
+import {suite, test, fail, NotSuiteOrTestDecoratedMethodError} from "../lib";
 
 playwright.describe('@fail decorator', () => {
   playwright.describe('with @suite', () => {
@@ -42,6 +42,30 @@ playwright.describe('@fail decorator', () => {
     playwright('@fail decorator should not throw error when test intentionally fails', () => {
       // is called and not throw error
       expect(called).toEqual(['failingTest']);
+    });
+  });
+  
+  playwright.describe('without @suite', () => {
+    playwright('should throw NotSuiteOrTestDecoratedMethodError error', () => {
+      try {
+        @fail()
+        class ExampleClass {}
+      } catch (e) {
+        playwright.expect(e instanceof NotSuiteOrTestDecoratedMethodError).toBeTruthy();
+      }
+    });
+  });
+
+  playwright.describe('without @test', () => {
+    playwright('should throw NotSuiteOrTestDecoratedMethodError error', () => {
+      try {
+        class ExampleClass {
+          @fail()
+          exampleMethod() {}
+        }
+      } catch (e) {
+        playwright.expect(e instanceof NotSuiteOrTestDecoratedMethodError).toBeTruthy();
+      }
     });
   });
 });

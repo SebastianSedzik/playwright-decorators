@@ -1,18 +1,21 @@
-import {SuiteDecoratedMethod} from "./suite.decorator";
-import {TestDecoratedMethod} from "./test.decorator";
+import {isSuiteDecoratedMethod} from "./suite.decorator";
+import {isTestDecoratedMethod} from "./test.decorator";
+import {NotSuiteOrTestDecoratedMethodError} from "./errors";
 
 /**
  * Declares a focused test.
  * If there are some focused @test(s) or @suite(s), all of them will be run but nothing else.
  */
 export const only = () => function(originalMethod: any, context?: any) {
-  if ((originalMethod as SuiteDecoratedMethod)?.suiteDecorator) {
+  if (isSuiteDecoratedMethod(originalMethod)) {
     originalMethod.suiteDecorator.only = true;
     return;
   }
-
-  if ((originalMethod as TestDecoratedMethod)?.testDecorator) {
+  
+  if (isTestDecoratedMethod(originalMethod)) {
     originalMethod.testDecorator.only = true;
     return;
   }
+  
+  throw new NotSuiteOrTestDecoratedMethodError('only', originalMethod);
 }
