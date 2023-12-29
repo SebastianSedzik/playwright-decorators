@@ -322,11 +322,11 @@ class MyTestSuite {
 
 
 ### Custom decorators
-For more advanced use cases, you can create your own decorators using `createTestDecorator` and `createSuiteDecorator` functions.
+Custom decorators can be created using `createTestDecorator` and `createSuiteDecorator` functions 
 
 #### Test decorator
 The createTestDecorator function enables the generation of custom test decorators.
-Attempting to utilize a custom test decorator on a method that lacks the @test decoration will result in an error.
+Attempting to utilize a custom test decorator on a method that lacks the `@test` decoration will result in an error.
 
 ```ts
 import { suite, createTestDecorator } from 'playwright-decorators';
@@ -358,7 +358,7 @@ class MyTestSuite {
 
 #### Suite decorator
 The createSuiteDecorator function allows the creation of custom suite decorators.
-Attempting to apply a custom suite decorator to a class that lacks the @suite decoration will result in an error.
+Attempting to apply a custom suite decorator to a class that lacks the `@suite` decoration will result in an error.
 
 ```ts
 import { suite, createSuiteDecorator } from 'playwright-decorators';
