@@ -23,6 +23,7 @@ class MyTestSuite {
   }
 }
 ```
+For more advanced use cases, please see [custom decorators](#custom-decorators) section.
 
 ## 📝 Documentation
 ### Creating a test suite: `@suite(options?)`
@@ -317,3 +318,61 @@ class MyTestSuite {
 #### Options
 - `type` (required) - type of annotation, for example 'skip' or 'fail'.
 - `description` (optional) - description of annotation.
+
+
+
+### Custom decorators
+Custom decorators can be created using `createTestDecorator` and `createSuiteDecorator` functions 
+
+#### Test decorator
+The `createTestDecorator` function enables the generation of custom test decorators.
+Attempting to utilize a custom test decorator on a method that lacks the `@test` decoration will result in an error.
+
+```ts
+import { suite, createTestDecorator } from 'playwright-decorators';
+import playwright from '@playwright/test';
+
+const customTestDecorator = createTestDecorator('customTestDecorator', ({test, context}) => {
+  // create code using hooks provided by test decorator...
+  test.beforeTest(() => { /* ... */ })
+  test.afterTest(() => { /* ... */ })
+
+  // ...or Playwright hooks
+  playwright.beforeEach(() => {
+    // ...
+  })
+});
+```
+
+Then use it on `@test` decorator:
+```ts
+@suite()
+class MyTestSuite {
+  @customTestDecorator() // <-- Decorate test with custom decorator
+  @test()
+  async myTest({ page }) {
+    // ...
+  }
+}
+```
+
+#### Suite decorator
+The `createSuiteDecorator` function allows the creation of custom suite decorators.
+Attempting to apply a custom suite decorator to a class that lacks the `@suite` decoration will result in an error.
+
+```ts
+import { suite, createSuiteDecorator } from 'playwright-decorators';
+
+const customSuiteDecorator = createSuiteDecorator('customSuiteDecorator', ({suite, context}) => {
+  // ...
+});
+```
+
+Then use it on `@suite` decorator:
+```ts
+@customSuiteDecorator() // <-- Decorate suite with custom decorator
+@suite()
+class MyTestSuite {
+  // ...
+}
+```
