@@ -1,7 +1,7 @@
 import playwright from '@playwright/test';
 
 type Constructor = { new (...args: any[]): any };
-type Hook = () => void;
+type SuiteHook = () => void;
 
 interface SuiteDecoratorOptions {
   /**
@@ -43,7 +43,7 @@ export class SuiteDecorator implements SuiteDecoratorOptions {
   fixme: string | boolean = false;
   only = false;
 
-  private initializedHooks: Hook[] = [];
+  private initializedHooks: SuiteHook[] = [];
 
   constructor(private suiteClass: Constructor, options: SuiteDecoratorOptions) {
     this.name = suiteClass.name;
@@ -127,7 +127,7 @@ export class SuiteDecorator implements SuiteDecoratorOptions {
   /**
    * Declares an `initialized` hook that is executed after suite is initialized.
    */
-  initialized(hookFn: Hook) {
+  initialized(hookFn: SuiteHook) {
     this.initializedHooks.push(hookFn);
   }
 }

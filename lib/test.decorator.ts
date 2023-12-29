@@ -1,7 +1,7 @@
 import playwright from '@playwright/test';
 import {decoratePlaywrightTest, TestDecoratorFunction} from "./helpers";
 
-type Hook = () => void | Promise<void>;
+type TestHook = () => void | Promise<void>;
 
 interface TestDecoratorOptions {
   /**
@@ -49,8 +49,8 @@ export class TestDecorator implements TestDecoratorOptions {
   only = false;
   annotations: {type: string, description?: string}[] = [];
 
-  private beforeTestHooks: Hook[] = [];
-  private afterTestHooks: Hook[] = [];
+  private beforeTestHooks: TestHook[] = [];
+  private afterTestHooks: TestHook[] = [];
 
   constructor(private testMethod: any, options: TestDecoratorOptions) {
     this.name = testMethod.name;
@@ -151,14 +151,14 @@ export class TestDecorator implements TestDecoratorOptions {
   /**
    * Declares an `before` hook that is executed before test.
    */
-  beforeTest(initializer: Hook) {
+  beforeTest(initializer: TestHook) {
     this.beforeTestHooks.push(initializer);
   }
   
   /**
    * Declares an `after` hook that is executed after test.
    */
-  afterTest(initializer: Hook) {
+  afterTest(initializer: TestHook) {
     this.afterTestHooks.push(initializer);
   }
 }
