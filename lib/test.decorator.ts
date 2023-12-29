@@ -1,6 +1,7 @@
 import playwright from '@playwright/test';
 import {decoratePlaywrightTest, TestDecoratorFunction} from "./helpers";
-import {isSuiteDecoratedMethod} from "./suite.decorator";
+
+type Hook = () => void | Promise<void>;
 
 interface TestDecoratorOptions {
   /**
@@ -39,7 +40,7 @@ interface TestDecoratorOptions {
   annotations?: {type: string, description?: string}[];
 }
 
-class TestDecorator implements TestDecoratorOptions {
+export class TestDecorator implements TestDecoratorOptions {
   name: string;
   skip: string | boolean = false;
   slow: string | boolean = false;
@@ -47,6 +48,9 @@ class TestDecorator implements TestDecoratorOptions {
   fixme: string | boolean = false;
   only = false;
   annotations: {type: string, description?: string}[] = [];
+
+  private beforeTestHooks: Hook[] = [];
+  private afterTestHooks: Hook[] = [];
 
   constructor(private testMethod: any, options: TestDecoratorOptions) {
     this.name = testMethod.name;
@@ -107,20 +111,31 @@ class TestDecorator implements TestDecoratorOptions {
       playwright.info().annotations.push(annotation);
     });
   }
+  
+  private handleBeforeTestHooks() {
+    return Promise.all(this.beforeTestHooks.map(initializer => initializer()));
+  }
+
+  private handleAfterTestHooks() {
+    return Promise.all(this.afterTestHooks.map(initializer => initializer()));
+  }
 
   /**
    * Run playwright.test function using all collected data.
    */
   run(executionContext: any) {
-    const decoratedTest: TestDecoratorFunction = (testFunction) => (...args) => {
+    const decoratedTest: TestDecoratorFunction = (testFunction) => async (...args) => {
       this.handleSkip();
       this.handleSlow();
       this.handleFail();
       this.handleFixme();
       this.handleAnnotations();
+      await this.handleBeforeTestHooks();
 
       // set correct executionContext (test class)
-      return testFunction.call(executionContext, ...args);
+      await testFunction.call(executionContext, ...args);
+
+      await this.handleAfterTestHooks();
     };
 
     const decoratedTestMethod = decoratePlaywrightTest(
@@ -131,6 +146,20 @@ class TestDecorator implements TestDecoratorOptions {
     const playwrightRunTest = this.only ? playwright.only : playwright;
 
     playwrightRunTest(this.name, decoratedTestMethod);
+  }
+  
+  /**
+   * Declares an `before` hook that is executed before test.
+   */
+  beforeTest(initializer: Hook) {
+    this.beforeTestHooks.push(initializer);
+  }
+  
+  /**
+   * Declares an `after` hook that is executed after test.
+   */
+  afterTest(initializer: Hook) {
+    this.afterTestHooks.push(initializer);
   }
 }
 

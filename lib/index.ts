@@ -29,3 +29,9 @@ export {
   NotSuiteDecoratedMethodError,
   NotTestDecoratedMethodError
 } from './errors';
+
+// custom
+export {
+  createSuiteDecorator,
+  createTestDecorator
+} from './custom';

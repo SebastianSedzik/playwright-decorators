@@ -1,6 +1,7 @@
 import playwright from '@playwright/test';
 
 type Constructor = { new (...args: any[]): any };
+type Hook = () => void;
 
 interface SuiteDecoratorOptions {
   /**
@@ -34,13 +35,15 @@ interface SuiteDecoratorOptions {
   only?: boolean;
 }
 
-class SuiteDecorator implements SuiteDecoratorOptions {
+export class SuiteDecorator implements SuiteDecoratorOptions {
   name: string;
   skip: string | boolean = false;
   slow: string | boolean = false;
   fail: string | boolean = false;
   fixme: string | boolean = false;
   only = false;
+
+  private initializedHooks: Hook[] = [];
 
   constructor(private suiteClass: Constructor, options: SuiteDecoratorOptions) {
     this.name = suiteClass.name;
@@ -95,12 +98,17 @@ class SuiteDecorator implements SuiteDecoratorOptions {
     
     return playwright.fixme();
   }
+  
+  private handleInitializedHooks() {
+    return Promise.all(this.initializedHooks.map(hookFn => hookFn()));
+  }
 
-  private runSuite(userSuiteCode: () => Promise<any>) {
+  private async runSuite(userSuiteCode: () => Promise<any>) {
     this.handleSkip();
     this.handleSlow();
     this.handleFail();
     this.handleFixme();
+    this.handleInitializedHooks();
 
     return userSuiteCode();
   }
@@ -114,6 +122,13 @@ class SuiteDecorator implements SuiteDecoratorOptions {
     playwrightRunSuite(this.name, () => {
       return this.runSuite(() => new this.suiteClass())
     });
+  }
+  
+  /**
+   * Declares an `initialized` hook that is executed after suite is initialized.
+   */
+  initialized(hookFn: Hook) {
+    this.initializedHooks.push(hookFn);
   }
 }
 

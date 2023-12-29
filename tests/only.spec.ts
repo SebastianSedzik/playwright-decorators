@@ -54,11 +54,11 @@ playwright.describe('@only decorator', () => {
     // Unfortunately, we cannot call real `playwright.only()` because other tests will not be run, so call needs to be mocked.
     // As the result, we can only check if mocked `playwright.only` was called.
     playwright('@only decorator should run `playwright.only()` before each decorated test', () => {
-      expect(called).toEqual(['playwright.only()', 'focusedTest', 'playwright.only()', 'focusedTest2', 'test']); // playwright.only() is called before @only tests: focusedTest & focusedTest2, but not before test
+      expect(called).toEqual(['playwright.only()', 'playwright.only()', 'focusedTest', 'focusedTest2', 'test']); // playwright.only() is called before @only tests: focusedTest & focusedTest2, but not before test
       cleanup();
     });
   });
-  
+
   playwright.describe('without @suite', () => {
     playwright('should throw NotSuiteOrTestDecoratedMethodError',  () => {
       try {
