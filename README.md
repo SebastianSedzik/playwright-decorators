@@ -325,7 +325,7 @@ class MyTestSuite {
 Custom decorators can be created using `createTestDecorator` and `createSuiteDecorator` functions 
 
 #### Test decorator
-The createTestDecorator function enables the generation of custom test decorators.
+The `createTestDecorator` function enables the generation of custom test decorators.
 Attempting to utilize a custom test decorator on a method that lacks the `@test` decoration will result in an error.
 
 ```ts
@@ -357,7 +357,7 @@ class MyTestSuite {
 ```
 
 #### Suite decorator
-The createSuiteDecorator function allows the creation of custom suite decorators.
+The `createSuiteDecorator` function allows the creation of custom suite decorators.
 Attempting to apply a custom suite decorator to a class that lacks the `@suite` decoration will result in an error.
 
 ```ts
