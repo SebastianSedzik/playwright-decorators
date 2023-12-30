@@ -1,0 +1,17 @@
+{
+  "name": "examples",
+  "private": true,
+  "scripts": {
+    "start": "node app.js",
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "7.6.0",
+    "@playwright/test": "^1.36.1",
+    "body-parser": "1.20.2",
+    "express": "4.18.2",
+    "express-session": "1.17.3",
+    "node-fetch": "2.7.0",
+    "playwright-decorators": "*"
+  }
+}

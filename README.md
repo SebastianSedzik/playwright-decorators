@@ -23,7 +23,10 @@ class MyTestSuite {
   }
 }
 ```
-For more advanced use cases, please see [custom decorators](#custom-decorators) section.
+Explore the [custom decorators](#custom-decorators) section for more advanced use cases, or refer to the [examples](./examples) directory.
+
+## 🔬 Examples
+To view specific examples, navigate to the [examples](./examples) directory.
 
 ## 📝 Documentation
 ### Creating a test suite: `@suite(options?)`
@@ -322,7 +325,8 @@ class MyTestSuite {
 
 
 ### Custom decorators
-Custom decorators can be created using `createTestDecorator` and `createSuiteDecorator` functions 
+Custom decorators can be created using `createTestDecorator` and `createSuiteDecorator` functions.
+Simple usage examples are provided below. For more advanced examples, please refer to [examples](./examples) directory.
 
 #### Test decorator
 The `createTestDecorator` function enables the generation of custom test decorators.
