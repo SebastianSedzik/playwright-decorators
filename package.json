@@ -22,6 +22,9 @@
   "files": [
     "dist"
   ],
+  "workspaces": [
+    "examples"
+  ],
   "scripts": {
     "build:lib": "vite build",
     "build:types": "dts-bundle-generator --config ./dts-bundle-generator.config.ts",
