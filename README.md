@@ -13,20 +13,32 @@ npm i playwright-decorators
 ## 🏗️ Usage
 Declare tests using `@suite` and `@test` decorators
 ```ts
-import { suite, test } from 'playwright-decorators';
+import { suite, test, slow, annotation } from 'playwright-decorators';
 
 @suite()  // <-- Decorate class with @suite
 class MyTestSuite {
-  @test()  // <-- Decorate test method with @test
-  async myTest({ page }) {
+  @test()
+  async myTest({ page }) {  // <-- Decorate test method with @test
+    // ...
+  }
+
+  @annotation(['team-x']) // <-- Add custom annotation to test
+  @slow('Processing a new user takes a long time') // <-- Mark test as "slow"
+  @test() 
+  async userCreation({ page }) {
+    // ...
+  }
+
+  @withUser({ features: ['payment'] }) // <- Use your own custom decorators
+  @test()
+  async userShouldBeAbleToCancelSubscription({ page }) {
     // ...
   }
 }
 ```
-Explore the [custom decorators](#custom-decorators) section for more advanced use cases, or refer to the [examples](./examples) directory.
-
-## 🔬 Examples
-To view specific examples, navigate to the [examples](./examples) directory.
+To view all the available decorators, check the [documentation](#-documentation) section.
+For guidance on creating custom decorators, refer to the [custom decorators](#custom-decorators) section.
+Explore additional examples in the [examples](./examples) directory.
 
 ## 📝 Documentation
 ### Creating a test suite: `@suite(options?)`
@@ -326,7 +338,7 @@ class MyTestSuite {
 
 ### Custom decorators
 Custom decorators can be created using `createTestDecorator` and `createSuiteDecorator` functions.
-Simple usage examples are provided below. For more advanced examples, please refer to [examples](./examples) directory.
+Simple usage examples are provided below. For more advanced examples, please refer to [example decorators](./examples/tests/decorators) directory.
 
 #### Test decorator
 The `createTestDecorator` function enables the generation of custom test decorators.
