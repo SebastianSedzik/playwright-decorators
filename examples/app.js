@@ -70,6 +70,23 @@ app.post('/sign-in', (req, res) => {
   })
 });
 
+
+/**
+ * Sign in SSO (in progress) - response is delayed by 1 second
+ */
+app.get('/sign-in/sso', (req, res) => {
+  setTimeout(() => {
+    res.send(`
+        <h1 data-testid="page-title">SSO Login</h1>
+        <h2>Select provider</h2>
+        <ul>
+            <li>X</li>
+            <li>Y</li>
+        </ul>
+    `)
+  }, 1000)
+})
+
 /**
  * Authenticated page
  */
@@ -77,7 +94,7 @@ app.get('/', isAuthenticated, (req, res) => {
   const user = usersDB.find(user => user.userId === req.session.userId);
 
   res.send(`
-    <h1 data-testid="home-title">Hello ${user.username} 👋</h1>
+    <h1 data-testid="page-title">Hello ${user.username} 👋</h1>
     <a href="/settings">Settings</a>
   `)
 })

@@ -16,7 +16,7 @@ class AuthorizedUserSuite {
     await page.goto('http://localhost:3000/')
 
     // Then username should be displayed
-    await expect(page.getByTestId('home-title')).toHaveText(/Hello (?<userName>.*) 👋/)
+    await expect(page.getByTestId('page-title')).toHaveText(/Hello (?<userName>.*) 👋/)
   }
 
   @withRoute('settings') // <- usage of custom `withRoute` decorator
