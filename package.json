@@ -34,7 +34,8 @@
     "lint": "eslint --ignore-path .gitignore ./lib",
     "format": "prettier --ignore-path .gitignore --check ./lib",
     "test": "playwright test",
-    "changeset": "changeset"
+    "changeset": "changeset",
+    "version": "changeset version"
   },
   "devDependencies": {
     "@changesets/cli": "2.27.1",
