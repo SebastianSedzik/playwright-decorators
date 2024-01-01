@@ -1,4 +1,4 @@
-import {createTestDecorator} from "playwright-decorators";
+import { createTestDecorator } from "playwright-decorators";
 import playwright, {Page} from "@playwright/test";
 
 /**
@@ -8,7 +8,7 @@ import playwright, {Page} from "@playwright/test";
  */
 export const withRoute = (url: string) => createTestDecorator('withRoute', ({ test }) => {
   let _page: Page;
-  
+
   // #1 Extract `page` from test context
   playwright.beforeEach(({ page }) => {
     _page = page;
