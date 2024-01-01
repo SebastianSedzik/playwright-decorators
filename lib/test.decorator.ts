@@ -74,11 +74,11 @@ export class TestDecorator implements TestDecoratorOptions {
     if (this.slow === false) {
       return;
     }
-    
-    if (typeof this.skip === 'string') {
-      return playwright.slow(true, this.skip);
+
+    if (typeof this.slow === 'string') {
+      return playwright.slow(true, this.slow);
     }
-    
+
     return playwright.slow();
   }
   
