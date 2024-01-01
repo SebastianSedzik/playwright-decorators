@@ -3,7 +3,7 @@
 TypeScript's decorators for writing Playwright based tests.
 
 [![npm version](https://badge.fury.io/js/playwright-decorators.svg)](https://www.npmjs.com/package/playwright-decorators)
-[![package tests](https://github.com/SebastianSedzik/playwright-decorators/actions/workflows/tests.yml/badge.svg?branch=master)](https://github.com/SebastianSedzik/playwright-decorators/actions/workflows/tests.yml)
+[![package tests](https://github.com/SebastianSedzik/playwright-decorators/actions/workflows/master.yml/badge.svg?branch=master)](https://github.com/SebastianSedzik/playwright-decorators/actions/workflows/master.yml)
 
 ## 🌱 Installation
 ```sh
@@ -13,19 +13,19 @@ npm i playwright-decorators
 ## 🏗️ Usage
 Declare tests using `@suite` and `@test` decorators
 ```ts
-import { suite, test, slow, annotation } from 'playwright-decorators';
+import { suite, test, slow, tag } from 'playwright-decorators';
 
 @suite()  // <-- Decorate class with @suite
 class MyTestSuite {
-  @test()
-  async myTest({ page }) {  // <-- Decorate test method with @test
+  @test() // <-- Decorate test method with @test
+  async myTest({ page }) {
     // ...
   }
 
-  @annotation(['team-x']) // <-- Add custom annotation to test
-  @slow('Processing a new user takes a long time') // <-- Mark test as "slow"
+  @tag(['team-x'])
+  @slow('Response from pasword reset service takes a long time')
   @test() 
-  async userCreation({ page }) {
+  async userShouldBeAbleToResetPassword({ page }) {
     // ...
   }
 
