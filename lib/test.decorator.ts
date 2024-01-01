@@ -125,11 +125,11 @@ export class TestDecorator implements TestDecoratorOptions {
    */
   run(executionContext: any) {
     const decoratedTest: TestDecoratorFunction = (testFunction) => async (...args) => {
+      this.handleAnnotations();
       this.handleSkip();
       this.handleSlow();
       this.handleFail();
       this.handleFixme();
-      this.handleAnnotations();
       await this.handleBeforeTestHooks();
 
       // set correct executionContext (test class)
