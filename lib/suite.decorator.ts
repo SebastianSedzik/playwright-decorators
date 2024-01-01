@@ -1,6 +1,6 @@
 import playwright from '@playwright/test';
+import {TestClass} from "./common";
 
-type Constructor = { new (...args: any[]): any };
 type SuiteHook = () => void;
 
 interface SuiteDecoratorOptions {
@@ -45,7 +45,7 @@ export class SuiteDecorator implements SuiteDecoratorOptions {
 
   private initializedHooks: SuiteHook[] = [];
 
-  constructor(private suiteClass: Constructor, options: SuiteDecoratorOptions) {
+  constructor(private suiteClass: TestClass, options: SuiteDecoratorOptions) {
     this.name = suiteClass.name;
 
     Object.assign(this, options);
@@ -103,7 +103,7 @@ export class SuiteDecorator implements SuiteDecoratorOptions {
     return Promise.all(this.initializedHooks.map(hookFn => hookFn()));
   }
 
-  private async runSuite(userSuiteCode: () => Promise<any>) {
+  private async runSuite(userSuiteCode: () => Promise<void>) {
     this.handleSkip();
     this.handleSlow();
     this.handleFail();
@@ -144,15 +144,15 @@ export function isSuiteDecoratedMethod(method: any): method is SuiteDecoratedMet
  *
  * Behaviour of decorator can be modified by other decorators using injected `suiteDecorator` property.
  */
-export const suite = (options: SuiteDecoratorOptions = {}) => function<T extends Constructor>(constructor: T, context?: ClassMethodDecoratorContext) {
+export const suite = (options: SuiteDecoratorOptions = {}) => function<T extends TestClass>(constructor: T, context: ClassDecoratorContext) {
   const suiteDecorator = new SuiteDecorator(constructor, options);
-  
+
   /**
    * Decorate class by `suiteDecorator` property, to allow other decorators to modify suite behaviour / options.
    */
   Object.assign(constructor, { suiteDecorator });
 
-  context?.addInitializer(() => {
+  context.addInitializer(() => {
     suiteDecorator.run();
   })
 }

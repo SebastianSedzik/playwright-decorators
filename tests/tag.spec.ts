@@ -1,6 +1,5 @@
-import playwright, {expect} from "@playwright/test";
-import {mockFn} from "./__mocks__/mockFn";
-import {fail, NotSuiteOrTestDecoratedMethodError, suite, tag, test} from "../lib";
+import playwright, {expect, TestInfo} from "@playwright/test";
+import {NotSuiteOrTestDecoratedMethodError, suite, tag, test, TestArgs} from "../lib";
 
 playwright.describe('@tag decorator', () => {
   playwright.describe('with @suite', () => {
@@ -10,7 +9,7 @@ playwright.describe('@tag decorator', () => {
     @suite()
     class SuiteWithTag {
       @test()
-      async test({}, testInfo) {
+      async test({}: TestArgs, testInfo: TestInfo) {
         titlePath.push(...testInfo.titlePath);
       }
     }
@@ -28,7 +27,7 @@ playwright.describe('@tag decorator', () => {
     class TestSuite {
       @tag(['x'])
       @test()
-      async testWithTag({}, testInfo) {
+      async testWithTag({}: TestArgs, testInfo: TestInfo) {
         titlePath.push(...testInfo.titlePath);
       }
     }

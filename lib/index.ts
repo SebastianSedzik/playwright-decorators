@@ -30,6 +30,12 @@ export {
   NotTestDecoratedMethodError
 } from './errors';
 
+// common
+export type {
+  TestInfo,
+  TestArgs
+} from './common';
+
 // custom
 export {
   createSuiteDecorator,
