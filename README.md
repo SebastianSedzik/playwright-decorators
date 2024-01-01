@@ -3,7 +3,7 @@
 TypeScript's decorators for writing Playwright based tests.
 
 [![npm version](https://badge.fury.io/js/playwright-decorators.svg)](https://www.npmjs.com/package/playwright-decorators)
-[![package tests](https://github.com/SebastianSedzik/playwright-decorators/actions/workflows/tests.yml/badge.svg?branch=master)](https://github.com/SebastianSedzik/playwright-decorators/actions/workflows/tests.yml)
+[![package tests](https://github.com/SebastianSedzik/playwright-decorators/actions/workflows/master.yml/badge.svg?branch=master)](https://github.com/SebastianSedzik/playwright-decorators/actions/workflows/master.yml)
 
 ## 🌱 Installation
 ```sh
