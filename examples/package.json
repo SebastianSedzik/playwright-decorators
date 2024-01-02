@@ -2,17 +2,23 @@
   "name": "examples",
   "private": true,
   "scripts": {
-    "start": "node app.js",
+    "start": "node app/app.js",
     "build": "tsc",
+    "lint": "eslint --ignore-path .gitignore ./app ./tests",
+    "format": "prettier --ignore-path .gitignore --check .",
     "test": "playwright test"
   },
   "devDependencies": {
     "@faker-js/faker": "7.6.0",
     "@playwright/test": "^1.36.1",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
     "body-parser": "1.20.2",
+    "eslint": "^8.54.0",
     "express": "4.18.2",
     "express-session": "1.17.3",
     "node-fetch": "2.7.0",
-    "playwright-decorators": "../"
+    "playwright-decorators": "../",
+    "prettier": "^3.0.0",
+    "typescript": "^5.1.6"
   }
 }

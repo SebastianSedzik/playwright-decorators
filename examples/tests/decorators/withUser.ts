@@ -6,7 +6,7 @@ import { createSuiteDecorator } from "playwright-decorators";
  * Please use it with `@suite` decorator.
  */
 export const withUser = (options: { features: string[] }) => createSuiteDecorator('withUser', () => {
-  let testUser: any;
+  let testUser: { email: string, password: string };
 
   // #1 Get test user credentials before all tests
   playwright.beforeAll(async () => {

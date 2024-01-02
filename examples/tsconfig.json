@@ -10,10 +10,6 @@
     "declaration": true,
     "noEmit": true
   },
-  "include": [
-    "."
-  ],
-  "exclude": [
-    "dist"
-  ]
+  "include": ["."],
+  "exclude": ["dist"]
 }
