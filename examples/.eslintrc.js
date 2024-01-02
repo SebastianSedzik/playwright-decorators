@@ -7,11 +7,11 @@ module.exports = {
   rules: {
     '@typescript-eslint/no-var-requires': 'off'
   },
-  "overrides": [
+  overrides: [
     {
-      "files": ["tests/*.ts"],
-      "rules": {
-        "@typescript-eslint/no-unused-vars": "off"
+      files: ['tests/*.ts'],
+      rules: {
+        '@typescript-eslint/no-unused-vars': 'off'
       }
     }
   ]
