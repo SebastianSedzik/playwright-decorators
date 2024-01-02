@@ -1,0 +1,16 @@
+name: Prepare
+description: Setup environment
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Setup NodeJS
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+        cache: 'npm'
+    - name: Install dependencies
+      run: npm ci

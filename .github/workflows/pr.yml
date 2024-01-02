@@ -8,30 +8,50 @@ on:
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: with NodeJS
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
-          cache: 'npm'
-      - name: Install dependencies
-        run: npm ci
-      - name: Lint
-        run: npm run lint
+      - name: Prepare
+        uses: ./.github/actions/prepare
       - name: Build
         run: npm run build
-      - name: Test (library)
+
+  code_formatting:
+    name: Code formatting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Prepare
+        uses: ./.github/actions/prepare
+      - name: Lint
+        run: npm run lint
+      - name: Prettier
+        run: npm run format
+
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Prepare
+        uses: ./.github/actions/prepare
+      - name: Build
         run: |
           npx playwright install chromium
-          npm t
-      - name: Test (examples)
+          npm run test
+
+  examples:
+    name: Examples
+    runs-on: ubuntu-latest
+    steps:
+      - name: Prepare
+        uses: ./.github/actions/prepare
+      - name: Build
+        run: cd examples && npm run build
+      - name: Lint
+        run: cd examples && npm run lint
+      - name: Prettier
+        run: cd examples && npm run prettier
+      - name: Test
         run: |
           cd examples
           npx playwright install chromium
-          npm run build
-          npm t
+          npm run test  

@@ -30,7 +30,7 @@
     "build": "tsc && vite build",
     "postbuild": "dts-bundle-generator --config ./dts-bundle-generator.config.ts",
     "lint": "eslint --ignore-path .gitignore ./lib ./tests",
-    "format": "prettier --ignore-path .gitignore --check ./lib ./tests",
+    "prettier": "prettier --ignore-path .gitignore --check ./lib ./tests",
     "test": "playwright test",
     "changeset": "changeset",
     "version": "changeset version",
