@@ -1,13 +1,10 @@
 module.exports = {
   root: true,
-  extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
-  ],
+  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
   rules: {
-    "@typescript-eslint/no-var-requires": "off"
+    '@typescript-eslint/no-var-requires': 'off'
   },
   env: {
-    "node": true
+    node: true
   }
 }
