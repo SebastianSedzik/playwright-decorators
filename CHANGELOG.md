@@ -1,5 +1,35 @@
 ### Changelog
 
+## 0.12.0
+
+### Minor Changes
+
+- [#35](https://github.com/SebastianSedzik/playwright-decorators/pull/35) [`8ba55c6`](https://github.com/SebastianSedzik/playwright-decorators/commit/8ba55c6463a1f431896496f47f78730dded43a6c) Thanks [@SebastianSedzik](https://github.com/SebastianSedzik)! - Enhanced TypeScript support:
+
+  - constrained the `@suite` decorator to class contexts only.
+  - constrained the `@test` decorator to class method context only. Type check of test method arguments.
+  - exported the `TestArgs` type to provide validity within test methods.
+
+  ```ts
+  import { suite, test, TestArgs } from 'playwright-decorators'
+
+  @suite()
+  class ExampleSuite {
+    @test()
+    async exampleTest({ page }: TestArgs) {
+      // <- TestArgs ensures correct types of arguments
+      // ...
+    }
+  }
+  ```
+
+### Patch Changes
+
+- [#29](https://github.com/SebastianSedzik/playwright-decorators/pull/29) [`7398cc2`](https://github.com/SebastianSedzik/playwright-decorators/commit/7398cc2a9aea7c8df3db76bd82714ae94b50011e) Thanks [@SebastianSedzik](https://github.com/SebastianSedzik)! - Fixes of `@skip` and `@annotate` decorators:
+
+  - Pass `reason` from `@skip` decorator to the reporter.
+  - Added support for annotations on skipped tests.
+
 ## 0.11.2
 
 ### Patch Changes
