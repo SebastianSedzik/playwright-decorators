@@ -1,5 +1,5 @@
 import playwright, {expect} from "@playwright/test";
-import {suite, test} from "../lib";
+import {suite, test, TestArgs} from "../lib";
 
 playwright.describe('@test decorator', () => {
   const called: string[] = [];
@@ -27,7 +27,7 @@ playwright.describe('@test decorator', () => {
     }
 
     @test()
-    testShouldHaveAccessToPage({ page }) {
+    testShouldHaveAccessToPage({ page }: TestArgs) {
       called.push('testShouldHaveAccessToPage');
       expect(page).not.toBeUndefined();
     }

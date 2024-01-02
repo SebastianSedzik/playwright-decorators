@@ -1,4 +1,4 @@
-import { suite, test, afterAll, afterEach, beforeAll, beforeEach } from '../lib';
+import {suite, test, afterAll, afterEach, beforeAll, beforeEach, TestArgs} from '../lib';
 import playwright, {expect} from "@playwright/test";
 
 playwright.describe('hooks decorators', () => {
@@ -7,7 +7,7 @@ playwright.describe('hooks decorators', () => {
   @suite()
   class HooksSuite {
     @beforeAll()
-    beforeAll({ browser }) {
+    beforeAll({ browser }: TestArgs) {
       called.push('beforeAll');
 
       // ensure correctness of `this` context
@@ -18,7 +18,7 @@ playwright.describe('hooks decorators', () => {
     }
 
     @beforeEach()
-    beforeEach({ browser }) {
+    beforeEach({ browser }: TestArgs) {
       called.push('beforeEach');
       
       // ensure correctness of `this` context
@@ -29,7 +29,7 @@ playwright.describe('hooks decorators', () => {
     }
     
     @afterAll()
-    afterAll({ browser }) {
+    afterAll({ browser }: TestArgs) {
       called.push('afterAll');
       
       // ensure correctness of `this` context
@@ -40,7 +40,7 @@ playwright.describe('hooks decorators', () => {
     }
     
     @afterEach()
-    afterEach({ browser }) {
+    afterEach({ browser }: TestArgs) {
       called.push('afterEach');
       
       // ensure correctness of `this` context
@@ -49,7 +49,7 @@ playwright.describe('hooks decorators', () => {
       // ensure fixture is passed
       expect(browser).not.toBeUndefined();
     }
-    
+
     @test()
     testMethod() {
       called.push('testMethod');

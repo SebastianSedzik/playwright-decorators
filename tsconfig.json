@@ -8,7 +8,6 @@
     "strict": true,
     "sourceMap": true,
     "resolveJsonModule": true,
-    "experimentalDecorators": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "noUnusedLocals": false,
@@ -25,6 +24,7 @@
     "."
   ],
   "exclude": [
-    "dist"
+    "dist",
+    "examples"
   ]
 }

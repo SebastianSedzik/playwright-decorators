@@ -1,5 +1,6 @@
 import playwright from '@playwright/test';
 import {decoratePlaywrightTest, TestDecoratorFunction} from "./helpers";
+import {TestMethod} from "./common";
 
 type TestHook = () => void | Promise<void>;
 
@@ -123,7 +124,7 @@ export class TestDecorator implements TestDecoratorOptions {
   /**
    * Run playwright.test function using all collected data.
    */
-  run(executionContext: any) {
+  run(executionContext: ClassMethodDecoratorContext) {
     const decoratedTest: TestDecoratorFunction = (testFunction) => async (...args) => {
       this.handleAnnotations();
       this.handleSkip();
@@ -176,12 +177,12 @@ export function isTestDecoratedMethod(method: any): method is TestDecoratedMetho
  *
  * Behaviour of decorator can be modified by other decorators using injected `testDecorator` property.
  */
-export const test = (options: TestDecoratorOptions = {}) => function(originalMethod: any, context: any) {
+export const test = (options: TestDecoratorOptions = {}) => function(originalMethod: TestMethod, context: ClassMethodDecoratorContext) {
   const testDecorator = new TestDecorator(originalMethod, options);
 
   Object.assign(originalMethod, { testDecorator });
 
-  (context as ClassMemberDecoratorContext).addInitializer(function () {
-    testDecorator.run(this);
+  context.addInitializer(function () {
+    testDecorator.run(this as ClassMethodDecoratorContext);
   });
 }

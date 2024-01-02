@@ -1,5 +1,5 @@
-import {createSuiteDecorator} from "playwright-decorators";
 import playwright from "@playwright/test";
+import { createSuiteDecorator } from "playwright-decorators";
 
 /**
  * Provide context of logged-in user for each @test in the given @suite.

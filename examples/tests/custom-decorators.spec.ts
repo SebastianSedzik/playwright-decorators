@@ -1,4 +1,4 @@
-import { suite, test } from "playwright-decorators";
+import { suite, test, TestArgs } from "playwright-decorators";
 import { withUser, withRoute } from './decorators';
 import { expect } from "@playwright/test";
 
@@ -11,7 +11,7 @@ import { expect } from "@playwright/test";
 @suite()
 class AuthorizedUserSuite {
   @test()
-  async shouldBeLogged({ page }) {
+  async shouldBeLogged({ page }: TestArgs) {
     // When on `/` route
     await page.goto('http://localhost:3000/')
 
@@ -21,7 +21,7 @@ class AuthorizedUserSuite {
 
   @withRoute('settings') // <- usage of custom `withRoute` decorator
   @test()
-  async shouldHaveRequestedFeatures({ page }) {
+  async shouldHaveRequestedFeatures({ page }: TestArgs) {
     // When on `/settings` route
     await expect(page).toHaveURL('http://localhost:3000/settings')
     
@@ -36,7 +36,7 @@ class AuthorizedUserSuite {
 class UnauthorizedUserSuite {
   @withRoute('settings') // <- usage of custom `withRoute` decorator
   @test()
-  async shouldBeRedirectedToSignInPage({ page }) {
+  async shouldBeRedirectedToSignInPage({ page }: TestArgs) {
     await expect(page).toHaveURL(/sign-in/)
   }
 }

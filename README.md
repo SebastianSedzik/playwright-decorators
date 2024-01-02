@@ -13,25 +13,25 @@ npm i playwright-decorators
 ## 🏗️ Usage
 Declare tests using `@suite` and `@test` decorators
 ```ts
-import { suite, test, slow, tag } from 'playwright-decorators';
+import { suite, test, slow, tag, TestArgs, TestInfo } from 'playwright-decorators';
 
 @suite()  // <-- Decorate class with @suite
 class MyTestSuite {
   @test() // <-- Decorate test method with @test
-  async myTest({ page }) {
+  async myTest({ page }: TestArgs, testInfo: TestInfo) {
     // ...
   }
 
   @tag(['team-x'])
   @slow('Response from pasword reset service takes a long time')
   @test() 
-  async userShouldBeAbleToResetPassword({ page }) {
+  async userShouldBeAbleToResetPassword({ page }: TestArgs) {
     // ...
   }
 
   @withUser({ features: ['payment'] }) // <- Use your own custom decorators
   @test()
-  async userShouldBeAbleToCancelSubscription({ page }) {
+  async userShouldBeAbleToCancelSubscription({ page }: TestArgs) {
     // ...
   }
 }
@@ -63,12 +63,12 @@ Mark class method as test.
 Under the hood, decorator creates a `test` block and runs the method inside it.
 
 ```ts
-import { suite, test } from 'playwright-decorators';
+import { suite, test, TestArgs } from 'playwright-decorators';
 
 @suite()
 class MyTestSuite {
   @test() // <-- Decorate test method with @test() or @test(options)
-  async myTest({ page }) {
+  async myTest({ page }: TestArgs) {
     // ...
   }
 }
@@ -82,12 +82,12 @@ class MyTestSuite {
 Mark method as `beforeAll` book.
 
 ```ts
-import { suite, test, beforeAll } from 'playwright-decorators';
+import { suite, test, beforeAll, TestArgs } from 'playwright-decorators';
 
 @suite()
 class MyTestSuite {
   @beforeAll() // <-- Decorate method with @beforeAll()
-  async beforeAll({page}) {
+  async beforeAll({ page }: TestArgs) {
     // ...
   }
 }
@@ -98,12 +98,12 @@ class MyTestSuite {
 Mark method as `beforeEach` book.
 
 ```ts
-import { suite, test, beforeEach } from 'playwright-decorators';
+import { suite, test, beforeEach, TestArgs } from 'playwright-decorators';
 
 @suite()
 class MyTestSuite {
   @beforeEach() // <-- Decorate method with @beforeEach()
-  async beforeEach({ page }) {
+  async beforeEach({ page }: TestArgs) {
     // ...
   }
 }
@@ -114,12 +114,12 @@ class MyTestSuite {
 Mark method as `afterAll` book.
 
 ```ts
-import { suite, test, afterAll } from 'playwright-decorators';
+import { suite, test, afterAll, TestArgs } from 'playwright-decorators';
 
 @suite()
 class MyTestSuite {
   @afterAll() // <-- Decorate method with @afterAll()
-  async afterAll({page}) {
+  async afterAll({ page }: TestArgs) {
     // ...
   }
 }
@@ -130,12 +130,12 @@ class MyTestSuite {
 Mark method as `afterEach` book.
 
 ```ts
-import { suite, test, afterEach } from 'playwright-decorators';
+import { suite, test, afterEach, TestArgs } from 'playwright-decorators';
 
 @suite()
 class MyTestSuite {
   @afterEach() // <-- Decorate method with @afterEach()
-  async afterEach({ page }) {
+  async afterEach({ page }: TestArgs) {
     // ...
   }
 }
@@ -146,7 +146,7 @@ class MyTestSuite {
 Skip single `@test` or `@suite`.
 
 ```ts
-import { suite, test, skip } from 'playwright-decorators';
+import { suite, test, skip, TestArgs } from 'playwright-decorators';
 
 // Skip test suite
 @skip() // <-- Decorate suite with @skip()
@@ -159,7 +159,7 @@ class SkippedTestSuite {
 class MyTestSuite {
   @skip() // <-- Decorate test with @skip()
   @test()
-  async skippedTest({ page }) {
+  async skippedTest({ page }: TestArgs) {
     // ...
   }
 }
@@ -175,7 +175,7 @@ Playwright Test runs this test and ensures that it is actually failing.
 This is useful for documentation purposes to acknowledge that some functionality is broken until it is fixed.
 
 ```ts
-import { suite, test, fail } from 'playwright-decorators';
+import { suite, test, fail, TestArgs } from 'playwright-decorators';
 
 // Mark suite as "fail", ensure that all tests from suite fail
 @fail() // <-- Decorate suite with @fail()
@@ -188,7 +188,7 @@ class FailTestSuite {
 class MyTestSuite {
   @fail() // <-- Decorate test with @fail()
   @test()
-  async failingTest({ page }) {
+  async failingTest({ page }: TestArgs) {
     // ...
   }
 }
@@ -203,7 +203,7 @@ Marks a `@test` or `@suite` as "fixme", with the intention to fix (with optional
 Decorated tests or suites will not be run.
 
 ```ts
-import { suite, test, fixme } from 'playwright-decorators';
+import { suite, test, fixme, TestArgs } from 'playwright-decorators';
 
 // Mark test suite as "fixme"
 @fixme() // <-- Decorate suite with @fixme()
@@ -216,7 +216,7 @@ class FixmeTestSuite {
 class MyTestSuite {
   @fixme() // <-- Decorate test with @fixme()
   @test()
-  async fixmeTest({ page }) {
+  async fixmeTest({ page }: TestArgs) {
     // ...
   }
 }
@@ -231,7 +231,7 @@ Mark single `@test` or `@suite` as "slow".
 Slow test will be given triple the default timeout.
 
 ```ts
-import { suite, test, skip } from 'playwright-decorators';
+import { suite, test, skip, TestArgs } from 'playwright-decorators';
 
 // Mark test suite as "slow"
 @slow() // <-- Decorate suite with @slow()
@@ -244,7 +244,7 @@ class SlowTestSuite {
 class MyTestSuite {
   @slow() // <-- Decorate test with @slow()
   @test()
-  async slowTest({ page }) {
+  async slowTest({ page }: TestArgs) {
     // ...
   }
 }
@@ -259,7 +259,7 @@ Declares a focused `@test` or `@suite`.
 If there are some focused tests or suites, all of them will be run but nothing else.
 
 ```ts
-import { suite, test, only } from 'playwright-decorators';
+import { suite, test, only, TestArgs } from 'playwright-decorators';
 
 // Run only selected test suite(s)
 @only() // <-- Decorate suite with @only()
@@ -272,7 +272,7 @@ class FocusedTestSuite {
 class TestSuite {
     @only() // <-- Decorate test with @only()
     @test()
-    async focusedTest({ page }) {
+    async focusedTest({ page }: TestArgs) {
         // ...
     }
 }
@@ -285,7 +285,7 @@ You can later run test(s) or suite(s) with specific tag, using `npx playwright t
 For example: to run tests/suites with `x` tag, please run `npx playwright test --grep "@x"`
 
 ```ts
-import { suite, test, tag } from 'playwright-decorators';
+import { suite, test, tag, TestArgs } from 'playwright-decorators';
 
 // Run only selected test suite(s)
 @tag(['x-api-consumer']) // <-- Decorate suite with @tag()
@@ -298,7 +298,7 @@ class ApiConsumerTestSuite {
 class TestSuite {
     @tag(['x-api-consumer']) // <-- Decorate test with @tag()
     @test()
-    async apiConsumerTest({ page }) {
+    async apiConsumerTest({ page }: TestArgs) {
         // ...
     }
 }
@@ -318,13 +318,13 @@ Add custom annotation to a test.
 Annotations are accessible via test.info().annotations. Many reporters show annotations, for example 'html'.
 
 ```ts
-import { suite, test, annotation } from 'playwright-decorators';
+import { suite, test, annotation, TestArgs } from 'playwright-decorators';
 
 @suite()
 class MyTestSuite {
-  @annotate({ type: 'issue', description: 'https://github.com/microsoft/playwright/issues/<some-issue>' }) // <-- Decorate test with @annotate()
+  @annotation({ type: 'issue', description: 'https://github.com/microsoft/playwright/issues/<some-issue>' }) // <-- Decorate test with @annotate()
   @test()
-  async testWithCustomAnnotation({ page }) {
+  async testWithCustomAnnotation({ page }: TestArgs) {
     // ...
   }
 }
@@ -348,7 +348,7 @@ Attempting to utilize a custom test decorator on a method that lacks the `@test`
 import { suite, createTestDecorator } from 'playwright-decorators';
 import playwright from '@playwright/test';
 
-const customTestDecorator = createTestDecorator('customTestDecorator', ({test, context}) => {
+const customTestDecorator = createTestDecorator('customTestDecorator', ({ test, context }) => {
   // create code using hooks provided by test decorator...
   test.beforeTest(() => { /* ... */ })
   test.afterTest(() => { /* ... */ })
@@ -366,7 +366,7 @@ Then use it on `@test` decorator:
 class MyTestSuite {
   @customTestDecorator() // <-- Decorate test with custom decorator
   @test()
-  async myTest({ page }) {
+  async myTest({ page }: TestArgs) {
     // ...
   }
 }
@@ -379,7 +379,7 @@ Attempting to apply a custom suite decorator to a class that lacks the `@suite` 
 ```ts
 import { suite, createSuiteDecorator } from 'playwright-decorators';
 
-const customSuiteDecorator = createSuiteDecorator('customSuiteDecorator', ({suite, context}) => {
+const customSuiteDecorator = createSuiteDecorator('customSuiteDecorator', ({ suite, context }) => {
   // ...
 });
 ```
