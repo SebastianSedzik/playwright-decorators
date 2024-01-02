@@ -11,6 +11,8 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Prepare
         uses: ./.github/actions/prepare
       - name: Build
@@ -20,6 +22,8 @@ jobs:
     name: Code formatting
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Prepare
         uses: ./.github/actions/prepare
       - name: Lint
@@ -31,6 +35,8 @@ jobs:
     name: Tests
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Prepare
         uses: ./.github/actions/prepare
       - name: Build
@@ -42,6 +48,8 @@ jobs:
     name: Examples
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Prepare
         uses: ./.github/actions/prepare
       - name: Build
