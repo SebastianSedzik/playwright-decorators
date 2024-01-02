@@ -23,6 +23,8 @@ playwright.describe('@annotate decorator', () => {
   playwright.describe('without @test', () => {
     playwright('should throw NotTestDecoratedMethodError', () => {
       try {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         @annotation({ type: 'issue', description: 'url to issue' })
         class ExampleClass {}
       } catch (e) {

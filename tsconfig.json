@@ -24,6 +24,7 @@
     "."
   ],
   "exclude": [
-    "dist"
+    "dist",
+    "examples"
   ]
 }

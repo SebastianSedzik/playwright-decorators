@@ -27,7 +27,7 @@
     "."
   ],
   "scripts": {
-    "build:lib": "vite build",
+    "build:lib": "tsc && vite build",
     "build:types": "dts-bundle-generator --config ./dts-bundle-generator.config.ts",
     "build": "npm run build:lib",
     "postbuild": "npm run build:types",

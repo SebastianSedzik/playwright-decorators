@@ -99,6 +99,8 @@ playwright.describe('custom decorators', () => {
 
     playwright('Should throw error if decorator is not used on @test', () => {
       expect(() => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         @customTestDecorator
         class ExampleClass {}
       }).toThrowError(NotTestDecoratedMethodError)

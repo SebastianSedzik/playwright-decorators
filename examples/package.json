@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "start": "node app.js",
+    "build": "tsc",
     "test": "playwright test"
   },
   "devDependencies": {
