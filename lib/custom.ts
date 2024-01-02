@@ -1,9 +1,12 @@
-import {isSuiteDecoratedMethod, SuiteDecorator} from "./suite.decorator";
-import {isTestDecoratedMethod, TestDecorator} from "./test.decorator";
-import {NotSuiteDecoratedMethodError, NotTestDecoratedMethodError} from "./errors";
-import {TestClass, TestMethod} from "./common";
+import { isSuiteDecoratedMethod, SuiteDecorator } from './suite.decorator'
+import { isTestDecoratedMethod, TestDecorator } from './test.decorator'
+import { NotSuiteDecoratedMethodError, NotTestDecoratedMethodError } from './errors'
+import { TestClass, TestMethod } from './common'
 
-type CustomSuiteDecorator = (params: { suite: SuiteDecorator, context: ClassDecoratorContext }) => void;
+type CustomSuiteDecorator = (params: {
+  suite: SuiteDecorator
+  context: ClassDecoratorContext
+}) => void
 
 /**
  * Generates a decorator specifically intended for use with the @suite.
@@ -12,21 +15,24 @@ type CustomSuiteDecorator = (params: { suite: SuiteDecorator, context: ClassDeco
  * @param suiteDecorator a custom decorator function
  */
 export const createSuiteDecorator = (name: string, suiteDecorator: CustomSuiteDecorator) => {
-  return function(originalMethod: TestClass, context: ClassDecoratorContext) {
+  return function (originalMethod: TestClass, context: ClassDecoratorContext) {
     if (!isSuiteDecoratedMethod(originalMethod)) {
-      throw new NotSuiteDecoratedMethodError(name, originalMethod);
+      throw new NotSuiteDecoratedMethodError(name, originalMethod)
     }
-    
+
     originalMethod.suiteDecorator.initialized(() => {
       suiteDecorator({
         suite: originalMethod.suiteDecorator,
         context
-      });
+      })
     })
   }
 }
 
-type CustomTestDecorator = (params: { test: TestDecorator, context: ClassMethodDecoratorContext }) => void;
+type CustomTestDecorator = (params: {
+  test: TestDecorator
+  context: ClassMethodDecoratorContext
+}) => void
 
 /**
  * Generates a decorator specifically intended for use with the @test.
@@ -35,9 +41,9 @@ type CustomTestDecorator = (params: { test: TestDecorator, context: ClassMethodD
  * @param testDecorator a custom decorator function
  */
 export const createTestDecorator = (name: string, testDecorator: CustomTestDecorator) => {
-  return function(originalMethod: TestMethod, context: ClassMethodDecoratorContext) {
+  return function (originalMethod: TestMethod, context: ClassMethodDecoratorContext) {
     if (!isTestDecoratedMethod(originalMethod)) {
-      throw new NotTestDecoratedMethodError(name, originalMethod);
+      throw new NotTestDecoratedMethodError(name, originalMethod)
     }
 
     testDecorator({
