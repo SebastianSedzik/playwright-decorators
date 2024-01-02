@@ -5,7 +5,7 @@
     "start": "node app/app.js",
     "build": "tsc",
     "lint": "eslint --ignore-path .gitignore ./app ./tests",
-    "format": "prettier --ignore-path .gitignore --check .",
+    "prettier": "prettier --ignore-path .gitignore --check .",
     "test": "playwright test"
   },
   "devDependencies": {
