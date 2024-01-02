@@ -78,6 +78,7 @@ playwright.describe('@slow decorator', () => {
       try {
         class ExampleClass {
           @slow()
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
           exampleMethod() {}
         }
       } catch (e) {

@@ -67,6 +67,7 @@ playwright.describe('@skip decorator', () => {
       try {
         class ExampleClass {
           @skip()
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
           exampleMethod() {}
         }
       } catch (e) {

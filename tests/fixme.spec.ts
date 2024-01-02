@@ -67,6 +67,7 @@ playwright.describe('@fixme decorator', () => {
       try {
         class ExampleClass {
           @fixme()
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
           exampleMethod() {}
         }
       } catch (e) {

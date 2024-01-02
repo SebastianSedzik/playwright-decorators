@@ -61,6 +61,7 @@ playwright.describe('@fail decorator', () => {
       try {
         class ExampleClass {
           @fail()
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
           exampleMethod() {}
         }
       } catch (e) {

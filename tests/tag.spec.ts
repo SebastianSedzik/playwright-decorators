@@ -9,6 +9,7 @@ playwright.describe('@tag decorator', () => {
     @suite()
     class SuiteWithTag {
       @test()
+      // eslint-disable-next-line no-empty-pattern
       async test({}: TestArgs, testInfo: TestInfo) {
         titlePath.push(...testInfo.titlePath);
       }
@@ -27,6 +28,7 @@ playwright.describe('@tag decorator', () => {
     class TestSuite {
       @tag(['x'])
       @test()
+      // eslint-disable-next-line no-empty-pattern
       async testWithTag({}: TestArgs, testInfo: TestInfo) {
         titlePath.push(...testInfo.titlePath);
       }
@@ -54,6 +56,7 @@ playwright.describe('@tag decorator', () => {
       try {
         class ExampleClass {
           @tag(['x'])
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
           exampleMethod() {}
         }
       } catch (e) {

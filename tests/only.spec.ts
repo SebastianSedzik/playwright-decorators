@@ -75,6 +75,7 @@ playwright.describe('@only decorator', () => {
       try {
         class ExampleClass {
           @only()
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
           async exampleMethod() {}
         }
       } catch (e) {
