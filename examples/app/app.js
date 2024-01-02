@@ -1,23 +1,25 @@
-const express = require('express');
-const expressSession = require('express-session');
-const { faker } = require('@faker-js/faker');
-const app = express();
-const usersDB = [];
+const express = require('express')
+const expressSession = require('express-session')
+const { faker } = require('@faker-js/faker')
+const app = express()
+const usersDB = []
 
-app.use(expressSession({
-  secret: 'secret_key',
-  resave: false,
-  saveUninitialized: true
-}))
+app.use(
+  expressSession({
+    secret: 'secret_key',
+    resave: false,
+    saveUninitialized: true
+  })
+)
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
-function isAuthenticated (req, res, next) {
+function isAuthenticated(req, res, next) {
   if (req.session.userId) {
     return next()
   }
 
-  return res.redirect('/sign-in');
+  return res.redirect('/sign-in')
 }
 
 /**
@@ -33,8 +35,8 @@ app.post('/create-user', (req, res) => {
     features: req.body.features
   }
 
-  usersDB.push(user);
-  res.json(user);
+  usersDB.push(user)
+  res.json(user)
 })
 
 /**
@@ -54,22 +56,21 @@ app.get('/sign-in', (req, res) => {
 /**
  * Sign in request
  */
-app.post('/sign-in', (req, res) => {
-  const { email, password } = req.body;
-  const user = usersDB.find(user => user.email === email && user.password === password);
+app.post('/sign-in', (req, res, next) => {
+  const { email, password } = req.body
+  const user = usersDB.find((user) => user.email === email && user.password === password)
 
   if (!user) {
-    return res.redirect('/sign-in');
+    return res.redirect('/sign-in')
   }
-  
+
   req.session.regenerate(function (err) {
     if (err) next(err)
-    
-    req.session.userId = user.userId
-    res.redirect('/');
-  })
-});
 
+    req.session.userId = user.userId
+    res.redirect('/')
+  })
+})
 
 /**
  * Sign in SSO (in progress) - response is delayed by 1 second
@@ -91,7 +92,7 @@ app.get('/sign-in/sso', (req, res) => {
  * Authenticated page
  */
 app.get('/', isAuthenticated, (req, res) => {
-  const user = usersDB.find(user => user.userId === req.session.userId);
+  const user = usersDB.find((user) => user.userId === req.session.userId)
 
   res.send(`
     <h1 data-testid="page-title">Hello ${user.username} 👋</h1>
@@ -103,16 +104,18 @@ app.get('/', isAuthenticated, (req, res) => {
  * Settings page
  */
 app.get('/settings', isAuthenticated, (req, res) => {
-  const user = usersDB.find(user => user.userId === req.session.userId);
+  const user = usersDB.find((user) => user.userId === req.session.userId)
 
   res.send(`
     <h1>Settings</h1>
     <h2>Features</h2>
     <ul>
-        ${ user.features.map(feature => `<li data-testid="settings-feature">${feature}</li>`).join('\n') }
+        ${user.features
+          .map((feature) => `<li data-testid="settings-feature">${feature}</li>`)
+          .join('\n')}
     </ul>
   `)
 })
 
-app.listen(3000);
-console.log("Server listening on port 3000");
+app.listen(3000)
+console.log('Server listening on port 3000')

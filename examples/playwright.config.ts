@@ -1,4 +1,4 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test'
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -17,7 +17,7 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: { ...devices['Desktop Chrome'] }
     }
   ],
   webServer: {
@@ -25,6 +25,6 @@ export default defineConfig({
     url: 'http://127.0.0.1:3000',
     reuseExistingServer: !process.env.CI,
     stdout: 'ignore',
-    stderr: 'pipe',
-  },
-});
+    stderr: 'pipe'
+  }
+})

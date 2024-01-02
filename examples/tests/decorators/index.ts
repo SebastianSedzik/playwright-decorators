@@ -1,2 +1,2 @@
-export * from './withRoute';
-export * from './withUser';
+export * from './withRoute'
+export * from './withUser'

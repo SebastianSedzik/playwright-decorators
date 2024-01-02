@@ -1,6 +1,6 @@
-import { suite, test, TestArgs } from "playwright-decorators";
-import { withUser, withRoute } from './decorators';
-import { expect } from "@playwright/test";
+import { suite, test, TestArgs } from 'playwright-decorators'
+import { withUser, withRoute } from './decorators'
+import { expect } from '@playwright/test'
 
 /**
  * This suite is an example of usage of custom decorators.
@@ -24,13 +24,11 @@ class AuthorizedUserSuite {
   async shouldHaveRequestedFeatures({ page }: TestArgs) {
     // When on `/settings` route
     await expect(page).toHaveURL('http://localhost:3000/settings')
-    
+
     // Then all requested features should be available (features passed in @withUser decorator)
-    await expect(page.getByTestId('settings-feature'))
-      .toHaveText(['feature-a', 'feature-b']);
+    await expect(page.getByTestId('settings-feature')).toHaveText(['feature-a', 'feature-b'])
   }
 }
-
 
 @suite() // <- no `withUser` decorator, so user in @tests are not logged in
 class UnauthorizedUserSuite {

@@ -1,4 +1,4 @@
-import {TestClass, TestMethod} from "./common";
+import { TestClass, TestMethod } from './common'
 
 export class NotSuiteDecoratedMethodError extends Error {
   constructor(decoratorName: string, method: TestClass) {
@@ -8,7 +8,7 @@ Make sure ${method?.name} is marked with @suite, and that ${decoratorName} comes
 
 @${decoratorName}
 @suite()
-${method?.name}() {}`);
+${method?.name}() {}`)
   }
 }
 
@@ -20,8 +20,7 @@ Make sure ${method?.name} is marked with @test, and that ${decoratorName} comes 
 
 @${decoratorName}
 @test()
-${method?.name}() {}`
-    );
+${method?.name}() {}`)
   }
 }
 
@@ -34,6 +33,6 @@ Make sure ${method?.name} is marked with @suite or @test, and that ${decoratorNa
 @${decoratorName}
 @suite() / @test()
 ${method?.name}() {}
-    `);
+    `)
   }
 }
