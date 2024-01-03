@@ -1,7 +1,4 @@
-import { isSuiteDecoratedMethod } from './suite.decorator'
-import { isTestDecoratedMethod } from './test.decorator'
-import { NotSuiteOrTestDecoratedMethodError } from './errors'
-import { TestClass, TestMethod } from './common'
+import { createSuiteAndTestDecorator } from './custom'
 
 /**
  * Marks a @test or @suite as "should fail".
@@ -9,20 +6,12 @@ import { TestClass, TestMethod } from './common'
  * This is useful for documentation purposes to acknowledge that some functionality is broken until it is fixed.
  */
 export const fail = (reason?: string) =>
-  function (
-    originalMethod: TestClass | TestMethod,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    context: ClassDecoratorContext | ClassMethodDecoratorContext
-  ) {
-    if (isSuiteDecoratedMethod(originalMethod)) {
-      originalMethod.suiteDecorator.fail = reason || true
-      return
+  createSuiteAndTestDecorator(
+    'fail',
+    ({ suite }) => {
+      suite.fail = reason || true
+    },
+    ({ test }) => {
+      test.fail = reason || true
     }
-
-    if (isTestDecoratedMethod(originalMethod)) {
-      originalMethod.testDecorator.fail = reason || true
-      return
-    }
-
-    throw new NotSuiteOrTestDecoratedMethodError('fail', originalMethod)
-  }
+  )

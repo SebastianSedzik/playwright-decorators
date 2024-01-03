@@ -39,7 +39,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Prepare
         uses: ./.github/actions/prepare
-      - name: Build
+      - name: Test
         run: |
           npx playwright install chromium
           npm run test

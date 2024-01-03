@@ -348,7 +348,7 @@ Attempting to utilize a custom test decorator on a method that lacks the `@test`
 import { suite, createTestDecorator } from 'playwright-decorators';
 import playwright from '@playwright/test';
 
-const customTestDecorator = createTestDecorator('customTestDecorator', ({ test, context }) => {
+const customTestDecorator = createTestDecorator('customTestDecorator', ({ test }) => {
   // create code using hooks provided by test decorator...
   test.beforeTest(() => { /* ... */ })
   test.afterTest(() => { /* ... */ })
@@ -379,8 +379,12 @@ Attempting to apply a custom suite decorator to a class that lacks the `@suite` 
 ```ts
 import { suite, createSuiteDecorator } from 'playwright-decorators';
 
-const customSuiteDecorator = createSuiteDecorator('customSuiteDecorator', ({ suite, context }) => {
-  // ...
+const customSuiteDecorator = createSuiteDecorator('customSuiteDecorator', ({ suite }) => {
+  // run your custom code imadiately
+  suite.name = 'Custom name';
+
+  // or attach to specific hooks...
+  suite.initialized(() => { /* ... */ })
 });
 ```
 
@@ -391,4 +395,21 @@ Then use it on `@suite` decorator:
 class MyTestSuite {
   // ...
 }
+```
+
+### Suite and test decorator
+The `createSuiteAndTestDecorator` function allows the creation of custom decorators that can be applied to both suites and tests.
+
+```ts
+import {createSuiteAndTestDecorator} from 'playwright-decorators';
+
+const customSuiteAndTestDecorator = createSuiteAndTestDecorator(
+  'customSuiteAndTestDecorator',
+  ({ suite }) => {
+    // custom suite decorator code
+  },
+  ({ test }) => {
+    // code test decorator code
+  }
+)
 ```

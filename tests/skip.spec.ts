@@ -1,5 +1,6 @@
 import playwright, { expect } from '@playwright/test'
-import { suite, test, slow, beforeAll, skip, NotSuiteOrTestDecoratedMethodError } from '../lib'
+import { suite, test, skip } from '../lib'
+import { NotSuiteOrTestDecoratedMethodError } from '../lib/custom'
 
 playwright.describe('@skip decorator', () => {
   playwright.describe('with @suite', () => {

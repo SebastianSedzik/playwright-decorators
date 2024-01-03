@@ -1,5 +1,6 @@
 import playwright, { expect } from '@playwright/test'
-import { suite, test, only, NotSuiteOrTestDecoratedMethodError } from '../lib'
+import { suite, test, only } from '../lib'
+import { NotSuiteOrTestDecoratedMethodError } from '../lib/custom'
 import { mockFn } from './__mocks__/mockFn'
 
 playwright.describe('@only decorator', () => {

@@ -1,5 +1,6 @@
-import playwright, { expect, TestInfo } from '@playwright/test'
-import { NotSuiteOrTestDecoratedMethodError, suite, tag, test, TestArgs } from '../lib'
+import playwright, { expect } from '@playwright/test'
+import { suite, tag, test, TestArgs, TestInfo } from '../lib'
+import { NotSuiteOrTestDecoratedMethodError } from '../lib/custom'
 
 playwright.describe('@tag decorator', () => {
   playwright.describe('with @suite', () => {
