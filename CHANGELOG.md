@@ -34,7 +34,7 @@
 
 ### Patch Changes
 
-- [#38](https://github.com/SebastianSedzik/playwright-decorators/pull/38) [`dbea0b6`](https://github.com/SebastianSedzik/playwright-decorators/commit/dbea0b680f302cc5381406ef4467cd48afb2fee6) Thanks [@SebastianSedzik](https://github.com/SebastianSedzik)! - Fix export of `TestInfo` type
+- [#38](https://github.com/SebastianSedzik/playwright-decorators/pull/38) [`dbea0b6`](https://github.com/SebastianSedzik/playwright-decorators/commit/dbea0b680f302cc5381406ef4467cd48afb2fee6) Thanks [@SebastianSedzik](https://github.com/SebastianSedzik)! - Export `TestInfo` type
 
   ```ts
   import { suite, test, TestArgs, TestInfo } from '@playwright/test'
