@@ -1,5 +1,53 @@
 ### Changelog
 
+## 0.13.0
+
+### Minor Changes
+
+- [#38](https://github.com/SebastianSedzik/playwright-decorators/pull/38) [`dbea0b6`](https://github.com/SebastianSedzik/playwright-decorators/commit/dbea0b680f302cc5381406ef4467cd48afb2fee6) Thanks [@SebastianSedzik](https://github.com/SebastianSedzik)! - Added support for creating custom test and suite decorator
+
+  ```ts
+  import { createSuiteAndTestDecorator } from 'playwright-decorators'
+  import playwright from '@playwright/test'
+
+  const mySuiteAndTestDecorator = createSuiteAndTestDecorator(
+    'mySuiteAndTestDecorator',
+    ({ suite }) => {
+      suite.initialized(() => {
+        /** run custom code when suite is initialized **/
+      })
+    },
+    ({ test }) => {
+      test.beforeTest(() => {
+        /** run custom code before test execution **/
+      })
+      test.afterTest(() => {
+        /** run custom code after test execution **/
+      })
+
+      playwright.beforeEach(() => {
+        /** run custom code before each test execution **/
+      })
+    }
+  )
+  ```
+
+### Patch Changes
+
+- [#38](https://github.com/SebastianSedzik/playwright-decorators/pull/38) [`dbea0b6`](https://github.com/SebastianSedzik/playwright-decorators/commit/dbea0b680f302cc5381406ef4467cd48afb2fee6) Thanks [@SebastianSedzik](https://github.com/SebastianSedzik)! - Fix export of `TestInfo` type
+
+  ```ts
+  import { suite, test, TestArgs, TestInfo } from '@playwright/test'
+
+  @suite()
+  class TestSuite {
+    @test()
+    myTest({ page }: TestArgs, testInfo: TestInfo) {
+      // ...
+    }
+  }
+  ```
+
 ## 0.12.0
 
 ### Minor Changes
