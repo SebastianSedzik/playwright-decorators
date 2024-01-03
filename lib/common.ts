@@ -1,12 +1,12 @@
 import {
   PlaywrightTestArgs,
-  TestInfo,
   PlaywrightTestOptions,
   PlaywrightWorkerArgs,
-  PlaywrightWorkerOptions
+  PlaywrightWorkerOptions,
+  TestInfo as PlaywrightTestInfo
 } from '@playwright/test'
 
-export { TestInfo } from '@playwright/test'
+export interface TestInfo extends PlaywrightTestInfo {}
 export type TestArgs = PlaywrightTestArgs &
   PlaywrightTestOptions &
   PlaywrightWorkerArgs &

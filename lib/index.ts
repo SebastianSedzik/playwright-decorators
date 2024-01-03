@@ -23,15 +23,8 @@ export { annotation } from './annotation.decorator'
 // helpers
 export { tag } from './tag.decorator'
 
-// errors
-export {
-  NotSuiteOrTestDecoratedMethodError,
-  NotSuiteDecoratedMethodError,
-  NotTestDecoratedMethodError
-} from './errors'
-
 // common
-export type { TestInfo, TestArgs } from './common'
+export { type TestInfo, type TestArgs } from './common'
 
 // custom
 export { createSuiteDecorator, createTestDecorator } from './custom'
