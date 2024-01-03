@@ -1,5 +1,6 @@
 import playwright, { expect } from '@playwright/test'
-import { suite, test, fixme, NotSuiteOrTestDecoratedMethodError } from '../lib'
+import { suite, test, fixme } from '../lib'
+import { NotSuiteOrTestDecoratedMethodError } from '../lib/custom'
 
 playwright.describe('@fixme decorator', () => {
   playwright.describe('with @suite', () => {

@@ -1,6 +1,6 @@
 import playwright, { expect } from '@playwright/test'
 import { suite, test, annotation } from '../lib'
-import { NotTestDecoratedMethodError } from '../lib/errors'
+import { NotTestDecoratedMethodError } from '../lib/custom'
 
 playwright.describe('@annotate decorator', () => {
   playwright.describe('with @test', () => {

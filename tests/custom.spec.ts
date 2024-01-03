@@ -3,10 +3,9 @@ import {
   suite,
   test,
   createSuiteDecorator,
-  createTestDecorator,
-  NotTestDecoratedMethodError,
-  NotSuiteDecoratedMethodError
+  createTestDecorator
 } from '../lib'
+import { NotSuiteDecoratedMethodError, NotTestDecoratedMethodError } from '../lib/custom'
 
 playwright.describe('custom decorators', () => {
   playwright.describe('createSuiteDecorator', () => {
