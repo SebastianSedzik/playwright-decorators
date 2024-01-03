@@ -5,8 +5,8 @@
 Added support for creating custom test and suite decorator
 
 ```ts
-import {createSuiteAndTestDecorator} from 'playwright-decorators';
-import playwright from "@playwright/test";
+import { createSuiteAndTestDecorator } from 'playwright-decorators'
+import playwright from '@playwright/test'
 
 const mySuiteAndTestDecorator = createSuiteAndTestDecorator(
   'mySuiteAndTestDecorator',

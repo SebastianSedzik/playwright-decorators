@@ -6,7 +6,7 @@ import {
   TestInfo as PlaywrightTestInfo
 } from '@playwright/test'
 
-export interface TestInfo extends PlaywrightTestInfo {}
+export type TestInfo = PlaywrightTestInfo
 export type TestArgs = PlaywrightTestArgs &
   PlaywrightTestOptions &
   PlaywrightWorkerArgs &

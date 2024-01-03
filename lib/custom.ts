@@ -89,7 +89,6 @@ type CustomTestDecorator = (params: {
   context: ClassMethodDecoratorContext
 }) => void
 
-
 /**
  * Generates a decorator specifically intended for use with the @test.
  * Applying this decorator in other contexts will result in an error.
@@ -116,8 +115,15 @@ export const createTestDecorator = (name: string, testDecorator: CustomTestDecor
  * @param suiteDecorator a custom decorator function intended for use with @suite
  * @param testDecorator a custom decorator function intended for use with @test
  */
-export const createSuiteAndTestDecorator = (name: string, suiteDecorator: CustomSuiteDecorator, testDecorator: CustomTestDecorator) => {
-  return function (originalMethod: TestClass | TestMethod, context: ClassDecoratorContext | ClassMethodDecoratorContext) {
+export const createSuiteAndTestDecorator = (
+  name: string,
+  suiteDecorator: CustomSuiteDecorator,
+  testDecorator: CustomTestDecorator
+) => {
+  return function (
+    originalMethod: TestClass | TestMethod,
+    context: ClassDecoratorContext | ClassMethodDecoratorContext
+  ) {
     if (isSuiteDecoratedMethod(originalMethod)) {
       suiteDecorator({
         suite: originalMethod.suiteDecorator,
@@ -135,7 +141,7 @@ export const createSuiteAndTestDecorator = (name: string, suiteDecorator: Custom
       })
       return
     }
-    
+
     throw new NotSuiteOrTestDecoratedMethodError(name, originalMethod)
   }
 }
