@@ -402,7 +402,6 @@ The `createSuiteAndTestDecorator` function allows the creation of custom decorat
 
 ```ts
 import {createSuiteAndTestDecorator} from 'playwright-decorators';
-import {createSuiteOrTestDecorator} from "./custom";
 
 const customSuiteAndTestDecorator = createSuiteAndTestDecorator('customSuiteAndTestDecorator', ({ suite }) => {
   // custom suite decorator code

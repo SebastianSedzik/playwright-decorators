@@ -27,4 +27,4 @@ export { tag } from './tag.decorator'
 export { type TestInfo, type TestArgs } from './common'
 
 // custom
-export { createSuiteDecorator, createTestDecorator } from './custom'
+export { createSuiteDecorator, createTestDecorator, createSuiteAndTestDecorator } from './custom'
