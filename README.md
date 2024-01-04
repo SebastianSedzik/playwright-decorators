@@ -436,7 +436,7 @@ const customSuiteAndTestDecorator = createSuiteAndTestDecorator(
     // custom suite decorator code
   },
   ({ test }) => {
-    // custom@test decorator code
+    // custom test decorator code
   }
 )
 ```
