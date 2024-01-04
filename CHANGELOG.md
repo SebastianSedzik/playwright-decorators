@@ -1,5 +1,62 @@
 ### Changelog
 
+## 0.14.0
+
+### Minor Changes
+
+- [#40](https://github.com/SebastianSedzik/playwright-decorators/pull/40) [`a50e25b`](https://github.com/SebastianSedzik/playwright-decorators/commit/a50e25b1d5abf8c10b1fde965767cb6f0770751b) Thanks [@SebastianSedzik](https://github.com/SebastianSedzik)! - Add `@debug` decorator
+
+  Runs a `@test`(s) or `@suite`(s) in debug mode.
+  Tests or suites without the `@debug` decorator will not be excluded.
+  Learn more about debug mode: https://playwright.dev/docs/debug
+
+  ```ts
+  import { suite, test, debug, TestArgs } from 'playwright-decorators'
+
+  // Debug selected test suite(s)
+  @debug() // <-- Decorate suite with @debug()
+  @suite()
+  class DebugTestSuite {}
+
+  // Or debug selected test(s)
+  @suite()
+  class TestSuite {
+    @debug() // <-- Decorate test with @debug()
+    @test()
+    async test({ page }: TestArgs) {
+      // ...
+    }
+  }
+  ```
+
+- [#42](https://github.com/SebastianSedzik/playwright-decorators/pull/42) [`a2e7892`](https://github.com/SebastianSedzik/playwright-decorators/commit/a2e7892221878a69282cd16107ce28481faba629) Thanks [@SebastianSedzik](https://github.com/SebastianSedzik)! - Add `@preview` decorator
+
+  Runs a `@test`(s) or `@suite`(s) in preview (headed browser) mode, simulating user interaction (slowing down each operation by 1000ms).
+  Tests or suites without the `@preview` decorator will not be excluded.
+
+  ```ts
+  import { suite, test, preview, TestArgs } from 'playwright-decorators'
+
+  // Preview selected test suite(s)
+  @preview() // <-- Decorate suite with @preview()
+  @suite()
+  class PreviewTestSuite {}
+
+  // Or preview selected test(s)
+  @suite()
+  class TestSuite {
+    @preview() // <-- Decorate test with @preview()
+    @test()
+    async test({ page }: TestArgs) {
+      // ...
+    }
+  }
+  ```
+
+### Patch Changes
+
+- [#43](https://github.com/SebastianSedzik/playwright-decorators/pull/43) [`ccc39fc`](https://github.com/SebastianSedzik/playwright-decorators/commit/ccc39fc17d72059c9b034a1adff4f4949258b29c) Thanks [@SebastianSedzik](https://github.com/SebastianSedzik)! - Restructure readme file
+
 ## 0.13.0
 
 ### Minor Changes
