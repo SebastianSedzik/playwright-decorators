@@ -19,9 +19,10 @@ export { fail } from './fail.decorator'
 export { fixme } from './fixme.decorator'
 export { only } from './only.decorator'
 export { annotation } from './annotation.decorator'
+export { tag } from './tag.decorator'
 
 // helpers
-export { tag } from './tag.decorator'
+export { debug } from './debug.decorator'
 
 // common
 export { type TestInfo, type TestArgs } from './common'

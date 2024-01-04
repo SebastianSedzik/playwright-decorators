@@ -2,6 +2,7 @@ import { createSuiteAndTestDecorator } from './custom'
 
 const tagsAsPlaywrightAnnotations = (tags: string[]): string =>
   tags.map((tag) => `@${tag}`).join(' ')
+
 /**
  * Adds tags to `@test` or `@suite`.
  * You can later run test(s) or suite(s) with specific tag, using `npx playwright test --grep "@nameOfTag"` command.
