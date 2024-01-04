@@ -5,7 +5,7 @@
 Add `@debug` decorator
 
 Runs a `@test`(s) or `@suite`(s) in debug mode.
-`@test`(s) or `@suite`(s) lacking the `@debug` decorator will be excluded.
+Tests or suites without the `@debug` decorator will not be excluded.
 Learn more about debug mode: https://playwright.dev/docs/debug
 
 ```ts

@@ -23,6 +23,7 @@ export { tag } from './tag.decorator'
 
 // helpers
 export { debug } from './debug.decorator'
+export { preview } from './preview.decorator'
 
 // common
 export { type TestInfo, type TestArgs } from './common'
