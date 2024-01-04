@@ -78,8 +78,8 @@ class MyTestSuite {
 - `name` (optional) - name of the test. By default, name of the method.
 
 
-### Run method before all test in the suite: `@beforeAll()`
-Mark method as `beforeAll` book.
+### Run method before all tests in the suite: `@beforeAll()`
+Mark the method as `beforeAll` book.
 
 ```ts
 import { suite, test, beforeAll, TestArgs } from 'playwright-decorators';
@@ -95,7 +95,7 @@ class MyTestSuite {
 
 
 ### Run method before each test in the suite: `@beforeEach()`
-Mark method as `beforeEach` book.
+Mark the method as `beforeEach` book.
 
 ```ts
 import { suite, test, beforeEach, TestArgs } from 'playwright-decorators';
@@ -110,8 +110,8 @@ class MyTestSuite {
 ```
 
 
-### Run method after all test in the suite: `@afterAll()`
-Mark method as `afterAll` book.
+### Run method after all tests in the suite: `@afterAll()`
+Mark the method as `afterAll` book.
 
 ```ts
 import { suite, test, afterAll, TestArgs } from 'playwright-decorators';
@@ -127,7 +127,7 @@ class MyTestSuite {
 
 
 ### Run method after each test in the suite: `@afterEach()`
-Mark method as `afterEach` book.
+Mark the method as `afterEach` book.
 
 ```ts
 import { suite, test, afterEach, TestArgs } from 'playwright-decorators';
@@ -166,7 +166,7 @@ class MyTestSuite {
 ```
 
 #### Options
-- `reason` (optional) - reason of skipping. Will be displayed in the test report.
+- `reason` (optional) - the reason for skipping. Will be displayed in the test report.
 
 
 ### Mark test or suite as "should fail": `@fail(reason?: string)`
@@ -177,7 +177,7 @@ This is useful for documentation purposes to acknowledge that some functionality
 ```ts
 import { suite, test, fail, TestArgs } from 'playwright-decorators';
 
-// Mark suite as "fail", ensure that all tests from suite fail
+// Mark suite as "fail", and ensure that all tests from suite fail
 @fail() // <-- Decorate suite with @fail()
 @suite()
 class FailTestSuite {
@@ -195,7 +195,7 @@ class MyTestSuite {
 ```
 
 #### Options
-- `reason` (optional) - reason of marking as "should fail". Will be displayed in the test report.
+- `reason` (optional) - the reason for marking as "should fail". Will be displayed in the test report.
 
 
 ### Mark test or suite as "fixme", with the intention to fix it: `@fixme(reason?: string)`
@@ -223,7 +223,7 @@ class MyTestSuite {
 ```
 
 #### Options
-- `reason` (optional) - reason of marking as "fixme". Will be displayed in the test report.
+- `reason` (optional) - the reason for marking as "fixme". Will be displayed in the test report.
 
 
 ### Mark test or suite as "slow": `@slow(reason?: string)`
@@ -251,7 +251,7 @@ class MyTestSuite {
 ```
 
 #### Options
-- `reason` (optional) - reason of marking as "slow". Will be displayed in the test report.
+- `reason` (optional) - the reason for marking as "slow". Will be displayed in the test report.
 
 
 ### Run only selected test(s) or suite(s): `@only()`
@@ -304,7 +304,7 @@ class TestSuite {
 }
 ```
 
-To run test(s) or suite(s) for `x-api-consumer` tag (example above), please type and run below command:
+To run test(s) or suite(s) for `x-api-consumer` tag (example above), please type and run the below command:
 ```shell
 npx playwright test --grep "@x-api-consumer"
 ``` 
@@ -315,7 +315,7 @@ npx playwright test --grep "@x-api-consumer"
 
 ### Add custom annotation to test(s): `@annotate({type: string, description?: string})`
 Add custom annotation to a test.
-Annotations are accessible via test.info().annotations. Many reporters show annotations, for example 'html'.
+Annotations are accessible via `test.info().annotations`. Many reporters show annotations, for example 'html'.
 
 ```ts
 import { suite, test, annotation, TestArgs } from 'playwright-decorators';
@@ -360,12 +360,12 @@ class TestSuite {
 }
 ```
 
-Then run playwright tests as usual, i.e `npx playwright test`.
-> For debugging purposes, it is recommended to run tests only for one project / browser.
+Then run playwright tests as usual, i.e. `npx playwright test`.
+> For debugging purposes, running tests only for one project/browser is recommended.
 
 ### Custom decorators
 Custom decorators can be created using `createTestDecorator` and `createSuiteDecorator` functions.
-Simple usage examples are provided below. For more advanced examples, please refer to [example decorators](./examples/tests/decorators) directory.
+Simple usage examples are provided below. For more advanced examples, please take a look at [example decorators](./examples/tests/decorators) directory.
 
 #### Test decorator
 The `createTestDecorator` function enables the generation of custom test decorators.
@@ -407,7 +407,7 @@ Attempting to apply a custom suite decorator to a class that lacks the `@suite` 
 import { suite, createSuiteDecorator } from 'playwright-decorators';
 
 const customSuiteDecorator = createSuiteDecorator('customSuiteDecorator', ({ suite }) => {
-  // run your custom code imadiately
+  // run your custom code immediately
   suite.name = 'Custom name';
 
   // or attach to specific hooks...
