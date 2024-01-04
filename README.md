@@ -337,7 +337,7 @@ class MyTestSuite {
 
 ### Run test(s) or suite(s) in debug mode: `@debug()`
 Runs a `@test`(s) or `@suite`(s) in debug mode.
-`@test`(s) or `@suite`(s) lacking the `@debug` decorator will be excluded.
+Tests or suites without the `@debug` decorator will not be excluded.
 Learn more about debug mode: https://playwright.dev/docs/debug
 
 ```ts
@@ -361,7 +361,36 @@ class TestSuite {
 ```
 
 Then run playwright tests as usual, i.e. `npx playwright test`.
-> For debugging purposes, running tests only for one project/browser is recommended.
+> For debugging purposes, running tests only on local machine for one project/browser is recommended.
+
+
+### Run test(s) or suite(s) in preview mode: `@preview()`
+Runs a `@test`(s) or `@suite`(s) in preview (headed browser) mode, simulating user interaction (slowing down each operation by 1000ms).
+Tests or suites without the `@preview` decorator will not be excluded.
+
+```ts
+import { suite, test, preview, TestArgs } from 'playwright-decorators';
+
+// Preview selected test suite(s)
+@preview() // <-- Decorate suite with @preview()
+@suite()
+class PreviewTestSuite {
+}
+
+// Or preview selected test(s)
+@suite()
+class TestSuite {
+    @preview() // <-- Decorate test with @preview()
+    @test()
+    async test({ page }: TestArgs) {
+        // ...
+    }
+}
+```
+
+Then run playwright tests as usual, i.e. `npx playwright test`.
+> For preview purposes, running tests only for one project/browser is recommended.
+
 
 ### Custom decorators
 Custom decorators can be created using `createTestDecorator` and `createSuiteDecorator` functions.
