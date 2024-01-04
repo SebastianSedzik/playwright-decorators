@@ -10,7 +10,7 @@ TypeScript's decorators for writing Playwright based tests.
 npm i playwright-decorators
 ```
 
-## 🏗️ Usage
+## 👀 Examples
 Declare tests using `@suite` and `@test` decorators
 ```ts
 import { suite, test, slow, tag, TestArgs, TestInfo } from 'playwright-decorators';
@@ -36,11 +36,28 @@ class MyTestSuite {
   }
 }
 ```
-To view all the available decorators, check the [documentation](#-documentation) section.
-For guidance on creating custom decorators, refer to the [custom decorators](#custom-decorators) section.
-Explore additional examples in the [examples](./examples) directory.
+1. To view all the available decorators, check the [docs](#-docs) section.
+2. For guidance on creating custom decorators, refer to the [custom decorators](#custom-decorators) section.
+3. Explore additional examples in the [examples](./examples) directory.
 
-## 📝 Documentation
+## 📖 Docs
+- [Creating a test suite: `@suite`](#creating-a-test-suite-suiteoptions)
+- [Creating a test: `@test`](#creating-a-test-testoptions)
+- [Run method before all tests in the suite: `@beforeAll`](#run-method-before-all-tests-in-the-suite-beforeall)
+- [Run method before each test in the suite: `@beforeEach`](#run-method-before-each-test-in-the-suite-beforeeach)
+- [Run method after all tests in the suite: `@afterAll`](#run-method-after-all-tests-in-the-suite-afterall)
+- [Run method after each test in the suite: `@afterEach`](#run-method-after-each-test-in-the-suite-aftereach)
+- [Skip test or suite: `@skip`](#skip-test-or-suite-skipreason-string)
+- [Mark test or suite as "should fail": `@fail`](#mark-test-or-suite-as-should-fail-failreason-string)
+- [Mark test or suite as "fixme", with the intention to fix it: `@fixme`](#mark-test-or-suite-as-fixme-with-the-intention-to-fix-it-fixmereason-string)
+- [Mark test or suite as "slow": `@slow`](#mark-test-or-suite-as-slow-slowreason-string)
+- [Run only selected test(s) or suite(s): `@only`](#run-only-selected-tests-or-suites-only)
+- [Run test(s) or suite(s) with certain tag(s): `@tag`](#run-tests-or-suites-with-certain-tags-tagtags-string)
+- [Add custom annotation to test(s): `@annotate`](#add-custom-annotation-to-tests-annotatetype-string-description-string)
+- [Run test(s) or suite(s) in debug mode: `@debug`](#run-tests-or-suites-in-debug-mode-debug)
+- [Run test(s) or suite(s) in preview mode: `@preview`](#run-tests-or-suites-in-preview-mode-preview)
+- [Create custom decorator: `createSuiteDecorator`, `createTestDecorator`, `createSuiteAndTestDecorator`](#custom-decorators)
+
 ### Creating a test suite: `@suite(options?)`
 Mark class as test suite.
 Under the hood, decorator creates a `describe` block and runs all methods decorated by `@test` inside it.
