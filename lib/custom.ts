@@ -6,11 +6,11 @@ export class NotSuiteDecoratedMethodError extends Error {
   constructor(decoratorName: string, method: TestClass) {
     super(`
 The @${decoratorName} decorator can only be used on class that also have the @suite decorator.
-Make sure ${method?.name} is marked with @suite, and that ${decoratorName} comes before @suite, like this:
+Make sure ${method?.name} is marked with @suite, and that @${decoratorName} comes before @suite, like this:
 
 @${decoratorName}
 @suite()
-${method?.name}() {}`)
+class ${method?.name} {}`)
   }
 }
 
@@ -18,7 +18,7 @@ export class NotTestDecoratedMethodError extends Error {
   constructor(decoratorName: string, method: TestMethod) {
     super(`
 The @${decoratorName} decorator can only be used on methods that also have the @test decorator.
-Make sure ${method?.name} is marked with @test, and that ${decoratorName} comes before @test, like this:
+Make sure ${method?.name} is marked with @test, and that @${decoratorName} comes before @test, like this:
 
 @${decoratorName}
 @test()
@@ -29,11 +29,17 @@ ${method?.name}() {}`)
 export class NotSuiteOrTestDecoratedMethodError extends Error {
   constructor(decoratorName: string, method: TestClass | TestMethod) {
     super(`
-The @${decoratorName} decorator can only be used on classes/methods that also have the @suite or @test decorator.
-Make sure ${method?.name} is marked with @suite or @test, and that ${decoratorName} comes before @suite or @test, like this:
+The @${decoratorName} decorator can only be used on classes with the @suite decorator or methods with the @test decorator.
+Make sure ${method?.name} is marked with @suite or @test, and that @${decoratorName} comes before @suite or @test, like this:
 
+for suite:
 @${decoratorName}
-@suite() / @test()
+@suite()
+class ${method?.name} {}
+
+for test:
+@${decoratorName}
+@test()
 ${method?.name}() {}
     `)
   }
