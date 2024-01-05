@@ -1,5 +1,11 @@
 ### Changelog
 
+## 0.14.1
+
+### Patch Changes
+
+- [#44](https://github.com/SebastianSedzik/playwright-decorators/pull/44) [`e8997d2`](https://github.com/SebastianSedzik/playwright-decorators/commit/e8997d299cc4709fb844e00a1561cef44c647cb7) Thanks [@SebastianSedzik](https://github.com/SebastianSedzik)! - Redact error messages thrown by custom decorators: `createSuiteDecorator`, `createTestDecorator`, `createSuiteAndTestDecorator`
+
 ## 0.14.0
 
 ### Minor Changes
