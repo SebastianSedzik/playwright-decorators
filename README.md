@@ -38,7 +38,7 @@ class MyTestSuite {
 ```
 1. To view all the available decorators, check the [docs](#-docs) section.
 2. For guidance on creating custom decorators, refer to the [custom decorators](#custom-decorators) section.
-3. Explore additional examples in the [examples](./examples) directory.
+3. Explore additional examples in the [examples](./examples/tests) directory.
 
 ## 📖 Docs
 - [Creating a test suite: `@suite`](#creating-a-test-suite-suiteoptions)
