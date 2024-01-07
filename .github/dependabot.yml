@@ -1,13 +1,15 @@
 version: 2
 updates:
+  # Weekly non-major updates for dependencies
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "weekly"
-    labels:
-      - "dependencies"
     groups:
       production-dependencies:
         dependency-type: "production"
       development-dependencies:
         dependency-type: "development"
+    ignore:
+      - dependency-name: "*"
+        update-types: [ "version-update:semver-major" ]
