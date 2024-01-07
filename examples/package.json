@@ -9,14 +9,14 @@
     "test": "playwright test"
   },
   "devDependencies": {
-    "@faker-js/faker": "7.6.0",
+    "@faker-js/faker": "8.3.1",
     "@playwright/test": "^1.36.1",
-    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/eslint-plugin": "^6.18.0",
     "body-parser": "1.20.2",
     "eslint": "^8.54.0",
     "express": "4.18.2",
     "express-session": "1.17.3",
-    "node-fetch": "2.7.0",
+    "node-fetch": "3.3.2",
     "playwright-decorators": "../",
     "prettier": "^3.0.0",
     "typescript": "^5.1.6"
