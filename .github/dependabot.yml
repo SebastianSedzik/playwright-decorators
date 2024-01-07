@@ -1,6 +1,6 @@
 version: 2
 updates:
-  # Weekly non-major updates for dependencies
+  # Weekly non-major updates for NPM dependencies
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
