@@ -1,5 +1,11 @@
 ### Changelog
 
+## 0.14.2
+
+### Patch Changes
+
+- [#49](https://github.com/SebastianSedzik/playwright-decorators/pull/49) [`f76265e`](https://github.com/SebastianSedzik/playwright-decorators/commit/f76265e15a56cba54839a4f51bafa5c5aaa0a20b) Thanks [@dependabot](https://github.com/apps/dependabot)! - Bump development dependencies
+
 ## 0.14.1
 
 ### Patch Changes
@@ -17,7 +23,7 @@
   Learn more about debug mode: https://playwright.dev/docs/debug
 
   ```ts
-  import { suite, test, debug, TestArgs } from 'playwright-decorators'
+  import { suite, test, debug, TestArgs } from "playwright-decorators";
 
   // Debug selected test suite(s)
   @debug() // <-- Decorate suite with @debug()
@@ -41,7 +47,7 @@
   Tests or suites without the `@preview` decorator will not be excluded.
 
   ```ts
-  import { suite, test, preview, TestArgs } from 'playwright-decorators'
+  import { suite, test, preview, TestArgs } from "playwright-decorators";
 
   // Preview selected test suite(s)
   @preview() // <-- Decorate suite with @preview()
@@ -70,29 +76,29 @@
 - [#38](https://github.com/SebastianSedzik/playwright-decorators/pull/38) [`dbea0b6`](https://github.com/SebastianSedzik/playwright-decorators/commit/dbea0b680f302cc5381406ef4467cd48afb2fee6) Thanks [@SebastianSedzik](https://github.com/SebastianSedzik)! - Added support for creating custom test and suite decorator
 
   ```ts
-  import { createSuiteAndTestDecorator } from 'playwright-decorators'
-  import playwright from '@playwright/test'
+  import { createSuiteAndTestDecorator } from "playwright-decorators";
+  import playwright from "@playwright/test";
 
   const mySuiteAndTestDecorator = createSuiteAndTestDecorator(
-    'mySuiteAndTestDecorator',
+    "mySuiteAndTestDecorator",
     ({ suite }) => {
       suite.initialized(() => {
         /** run custom code when suite is initialized **/
-      })
+      });
     },
     ({ test }) => {
       test.beforeTest(() => {
         /** run custom code before test execution **/
-      })
+      });
       test.afterTest(() => {
         /** run custom code after test execution **/
-      })
+      });
 
       playwright.beforeEach(() => {
         /** run custom code before each test execution **/
-      })
-    }
-  )
+      });
+    },
+  );
   ```
 
 ### Patch Changes
@@ -100,7 +106,7 @@
 - [#38](https://github.com/SebastianSedzik/playwright-decorators/pull/38) [`dbea0b6`](https://github.com/SebastianSedzik/playwright-decorators/commit/dbea0b680f302cc5381406ef4467cd48afb2fee6) Thanks [@SebastianSedzik](https://github.com/SebastianSedzik)! - Export `TestInfo` type
 
   ```ts
-  import { suite, test, TestArgs, TestInfo } from '@playwright/test'
+  import { suite, test, TestArgs, TestInfo } from "@playwright/test";
 
   @suite()
   class TestSuite {
@@ -122,7 +128,7 @@
   - exported the `TestArgs` type to provide validity within test methods.
 
   ```ts
-  import { suite, test, TestArgs } from 'playwright-decorators'
+  import { suite, test, TestArgs } from "playwright-decorators";
 
   @suite()
   class ExampleSuite {
