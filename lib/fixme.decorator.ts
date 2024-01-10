@@ -1,4 +1,5 @@
 import { createSuiteAndTestDecorator } from './custom'
+import playwright from '@playwright/test'
 
 /**
  * Marks a @test or @suite as "fixme", with the intention to fix (with optional reason).
@@ -8,9 +9,9 @@ export const fixme = (reason?: string) =>
   createSuiteAndTestDecorator(
     'fixme',
     ({ suite }) => {
-      suite.fixme = reason || true
+      suite.initialized(() => playwright.fixme(true, reason))
     },
     ({ test }) => {
-      test.fixme = reason || true
+      test.beforeTest(() => playwright.fixme(true, reason))
     }
   )
