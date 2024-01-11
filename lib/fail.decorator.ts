@@ -1,4 +1,5 @@
 import { createSuiteAndTestDecorator } from './custom'
+import playwright from '@playwright/test'
 
 /**
  * Marks a @test or @suite as "should fail".
@@ -9,9 +10,9 @@ export const fail = (reason?: string) =>
   createSuiteAndTestDecorator(
     'fail',
     ({ suite }) => {
-      suite.fail = reason || true
+      suite.initialized(() => playwright.fail(true, reason))
     },
     ({ test }) => {
-      test.fail = reason || true
+      test.beforeTest(() => playwright.fail(true, reason))
     }
   )

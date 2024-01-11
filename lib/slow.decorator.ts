@@ -1,4 +1,5 @@
 import { createSuiteAndTestDecorator } from './custom'
+import playwright from '@playwright/test'
 
 /**
  * Marks a @test or @suite as "slow" (with optional reason).
@@ -8,9 +9,9 @@ export const slow = (reason?: string) =>
   createSuiteAndTestDecorator(
     'slow',
     ({ suite }) => {
-      suite.slow = reason || true
+      suite.initialized(() => playwright.slow(true, reason))
     },
     ({ test }) => {
-      test.slow = reason || true
+      test.beforeTest(() => playwright.slow(true, reason))
     }
   )

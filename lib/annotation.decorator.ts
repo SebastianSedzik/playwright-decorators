@@ -1,4 +1,5 @@
 import { createTestDecorator } from './custom'
+import playwright from '@playwright/test'
 
 interface AnnotationDecoratorOptions {
   type: 'skip' | 'fail' | 'issue' | 'slow' | string
@@ -11,5 +12,7 @@ interface AnnotationDecoratorOptions {
  */
 export const annotation = (options: AnnotationDecoratorOptions) =>
   createTestDecorator('annotation', ({ test }) => {
-    test.annotations.push(options)
+    test.beforeTest(() => {
+      playwright.info().annotations.push(options)
+    })
   })

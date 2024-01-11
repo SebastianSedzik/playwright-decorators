@@ -9,26 +9,6 @@ interface SuiteDecoratorOptions {
    */
   name?: string
   /**
-   * Skip suite (with optional reason)
-   */
-  skip?: string | boolean
-  /**
-   * Mark suite as "slow" (with optional reason).
-   * Slow test will be given triple the default timeout.
-   */
-  slow?: string | boolean
-  /**
-   * Marks a suite as "should fail".
-   * Playwright Test runs all test from suite and ensures that they are actually failing.
-   * This is useful for documentation purposes to acknowledge that some functionality is broken until it is fixe
-   */
-  fail?: string | boolean
-  /**
-   * Marks a suite as "fixme", with the intention to fix (with optional reason).
-   * Decorated suite will not be run.
-   */
-  fixme?: string | boolean
-  /**
    * Declares a focused suite.
    * If there are some focused @test(s) or @suite(s), all of them will be run but nothing else.
    */
@@ -37,10 +17,6 @@ interface SuiteDecoratorOptions {
 
 export class SuiteDecorator implements SuiteDecoratorOptions {
   name: string
-  skip: string | boolean = false
-  slow: string | boolean = false
-  fail: string | boolean = false
-  fixme: string | boolean = false
   only = false
 
   private initializedHooks: SuiteHook[] = []
@@ -54,63 +30,11 @@ export class SuiteDecorator implements SuiteDecoratorOptions {
     Object.assign(this, options)
   }
 
-  private handleSkip() {
-    if (this.skip === false) {
-      return
-    }
-
-    if (typeof this.skip === 'string') {
-      return playwright.skip(true, this.skip)
-    }
-
-    playwright.skip()
-  }
-
-  private handleSlow() {
-    if (this.slow === false) {
-      return
-    }
-
-    if (typeof this.slow === 'string') {
-      return playwright.slow(true, this.slow)
-    }
-
-    return playwright.slow()
-  }
-
-  private handleFail() {
-    if (this.fail === false) {
-      return
-    }
-
-    if (typeof this.fail === 'string') {
-      return playwright.fail(true, this.fail)
-    }
-
-    return playwright.fail()
-  }
-
-  private handleFixme() {
-    if (this.fixme === false) {
-      return
-    }
-
-    if (typeof this.fixme === 'string') {
-      return playwright.fixme(true, this.fixme)
-    }
-
-    return playwright.fixme()
-  }
-
   private handleInitializedHooks() {
     return Promise.all(this.initializedHooks.map((hookFn) => hookFn()))
   }
 
   private async runSuite(userSuiteCode: () => Promise<void>) {
-    this.handleSkip()
-    this.handleSlow()
-    this.handleFail()
-    this.handleFixme()
     this.handleInitializedHooks()
 
     return userSuiteCode()
@@ -120,15 +44,14 @@ export class SuiteDecorator implements SuiteDecoratorOptions {
    * Run playwright.describe function using all collected data.
    */
   run() {
-    const playwrightRunSuite = this.only ? playwright.describe.only : playwright.describe
+    const suiteRunner = this.only ? playwright.describe.only : playwright.describe
 
-    playwrightRunSuite(this.name, () => {
-      return this.runSuite(() => new this.suiteClass())
-    })
+    suiteRunner(this.name, () => this.runSuite(() => new this.suiteClass()))
   }
 
   /**
-   * Declares an `initialized` hook that is executed after suite is initialized.
+   * Declares an `initialized` hook that is executed in `playwright.describe` context, when suite is executed.
+   * It is equivalent to code: playwright.describe(..., () => { initialized(); ... })
    */
   initialized(hookFn: SuiteHook) {
     this.initializedHooks.push(hookFn)

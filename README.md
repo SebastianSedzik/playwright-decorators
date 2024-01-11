@@ -73,6 +73,7 @@ class MyTestSuite {
 
 #### Options
 - `name` (optional) - name of the test suite. By default, name of the class.
+- `only` (optional) - declares focused test suite. If there are some focused @test(s) or @suite(s), all of them will be run but nothing else.
 
 
 ### Creating a test: `@test(options?)`
@@ -93,6 +94,7 @@ class MyTestSuite {
 
 #### Options
 - `name` (optional) - name of the test. By default, name of the method.
+- `only` (optional) - declares focused test. If there are some focused @test(s) or @suite(s), all of them will be run but nothing else.
 
 
 ### Run method before all tests in the suite: `@beforeAll()`
