@@ -1,5 +1,11 @@
 ### Changelog
 
+## 0.14.3
+
+### Patch Changes
+
+- [#51](https://github.com/SebastianSedzik/playwright-decorators/pull/51) [`a83fc39`](https://github.com/SebastianSedzik/playwright-decorators/commit/a83fc39a06190a3b5f32058583e7b9e73da8de4c) Thanks [@SebastianSedzik](https://github.com/SebastianSedzik)! - `@test` and `@suite` decorators do no longer keep logic related to `fail`, `only`, `skip`, `slow`. Code was moved to dedicated decorators.
+
 ## 0.14.2
 
 ### Patch Changes
