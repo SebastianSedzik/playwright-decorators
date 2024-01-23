@@ -27,6 +27,7 @@ export { preview } from './preview.decorator'
 
 // common
 export { type TestInfo, type TestArgs } from './common'
+export { extend } from './extend'
 
 // custom
 export { createSuiteDecorator, createTestDecorator, createSuiteAndTestDecorator } from './custom'
