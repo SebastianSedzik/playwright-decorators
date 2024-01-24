@@ -4,7 +4,7 @@
 
 ### Minor Changes
 
-- [#56](https://github.com/SebastianSedzik/playwright-decorators/pull/56) [`3a44870`](https://github.com/SebastianSedzik/playwright-decorators/commit/3a44870c0ef5f420744d944549fb0491cb1cb199) Thanks [@{](https://github.com/{), [@async](https://github.com/async)! - Add support for fixtures
+- [#56](https://github.com/SebastianSedzik/playwright-decorators/pull/56) [`3a44870`](https://github.com/SebastianSedzik/playwright-decorators/commit/3a44870c0ef5f420744d944549fb0491cb1cb199) Thanks [@SebastianSedzik](https://github.com/SebastianSedzik)! - Add support for fixtures
 
   This release introduce a new method `extend<T>(customFixture)` that allows to create decorators (`afterAll`, `afterEach`, `test`, `beforeAll`, `beforeEach`) with access to custom fixtures.
 
