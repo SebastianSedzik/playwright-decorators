@@ -1,10 +1,10 @@
 import playwright from '@playwright/test'
 import { decoratePlaywrightTest, TestDecoratorFunction } from './helpers'
-import { TestMethod } from './common'
+import { TestMethod, TestType } from './common'
 
 type TestHook = () => void | Promise<void>
 
-interface TestDecoratorOptions {
+export interface TestDecoratorOptions {
   /**
    * Name of the test. Default: name of the method
    */
@@ -14,11 +14,17 @@ interface TestDecoratorOptions {
    * If there are some focused @test(s) or @suite(s), all of them will be run but nothing else.
    */
   only?: boolean
+  /**
+   * Custom playwright instance to use instead of standard one.
+   * For example, provide result of `playwright.extend<T>(customFixture)` to ensure availability of custom fixture in the `test` method.
+   */
+  playwright?: TestType
 }
 
 export class TestDecorator implements TestDecoratorOptions {
   name: string
   only = false
+  playwright = playwright
 
   private beforeTestHooks: TestHook[] = []
   private afterTestHooks: TestHook[] = []
@@ -55,7 +61,7 @@ export class TestDecorator implements TestDecoratorOptions {
         await this.handleAfterTestHooks()
       }
 
-    const testRunner = this.only ? playwright.only : playwright
+    const testRunner = this.only ? this.playwright.only : this.playwright
 
     testRunner(this.name, decoratePlaywrightTest(this.testMethod, extendedTestMethod))
   }
@@ -90,8 +96,8 @@ export function isTestDecoratedMethod(method: any): method is TestDecoratedMetho
  *
  * Behaviour of decorator can be modified by other decorators using injected `testDecorator` property.
  */
-export const test = (options: TestDecoratorOptions = {}) =>
-  function (originalMethod: TestMethod, context: ClassMethodDecoratorContext) {
+export const test = <T = void>(options: TestDecoratorOptions = {}) =>
+  function (originalMethod: TestMethod<T>, context: ClassMethodDecoratorContext) {
     const testDecorator = new TestDecorator(originalMethod, options)
 
     Object.assign(originalMethod, { testDecorator })
