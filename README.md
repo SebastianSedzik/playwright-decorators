@@ -23,7 +23,7 @@ class MyTestSuite {
   }
 
   @tag(['team-x'])
-  @slow('Response from pasword reset service takes a long time')
+  @slow('Response from reset password service needs more time')
   @test() 
   async userShouldBeAbleToResetPassword({ page }: TestArgs) {
     // ...
@@ -57,6 +57,7 @@ class MyTestSuite {
 - [Run test(s) or suite(s) in debug mode: `@debug`](#run-tests-or-suites-in-debug-mode-debug)
 - [Run test(s) or suite(s) in preview mode: `@preview`](#run-tests-or-suites-in-preview-mode-preview)
 - [Create custom decorator: `createSuiteDecorator`, `createTestDecorator`, `createSuiteAndTestDecorator`](#custom-decorators)
+- [Using custom fixtures: `extend`](#fixtures)
 
 ### Creating a test suite: `@suite(options?)`
 Mark class as test suite.
@@ -95,9 +96,9 @@ class MyTestSuite {
 #### Options
 - `name` (optional) - name of the test. By default, name of the method.
 - `only` (optional) - declares focused test. If there are some focused @test(s) or @suite(s), all of them will be run but nothing else.
+- `playwright` (optional) - Custom playwright instance to use instead of standard one. For example, provide result of `playwright.extend<T>(customFixture)` to ensure availability of custom fixture in the `test` method.
 
-
-### Run method before all tests in the suite: `@beforeAll()`
+### Run method before all tests in the suite: `@beforeAll(options?)`
 Mark the method as `beforeAll` book.
 
 ```ts
@@ -112,8 +113,11 @@ class MyTestSuite {
 }
 ```
 
+#### Options
+- `playwright` (optional) - Custom playwright instance to use instead of standard one. For example, provide result of `playwright.extend<T>(customFixture)` to ensure availability of custom fixture in the `beforeAll` hook.
 
-### Run method before each test in the suite: `@beforeEach()`
+
+### Run method before each test in the suite: `@beforeEach(options?)`
 Mark the method as `beforeEach` book.
 
 ```ts
@@ -128,8 +132,11 @@ class MyTestSuite {
 }
 ```
 
+#### Options
+- `playwright` (optional) - Custom playwright instance to use instead of standard one. For example, provide result of `playwright.extend<T>(customFixture)` to ensure availability of custom fixture in the `beforeEach` hook.
 
-### Run method after all tests in the suite: `@afterAll()`
+
+### Run method after all tests in the suite: `@afterAll(options?)`
 Mark the method as `afterAll` book.
 
 ```ts
@@ -144,8 +151,11 @@ class MyTestSuite {
 }
 ```
 
+#### Options
+- `playwright` (optional) - Custom playwright instance to use instead of standard one. For example, provide result of `playwright.extend<T>(customFixture)` to ensure availability of custom fixture in the `afterAll` hook.
 
-### Run method after each test in the suite: `@afterEach()`
+
+### Run method after each test in the suite: `@afterEach(options?)`
 Mark the method as `afterEach` book.
 
 ```ts
@@ -159,6 +169,9 @@ class MyTestSuite {
   }
 }
 ```
+
+#### Options
+- `playwright` (optional) - Custom playwright instance to use instead of standard one. For example, provide result of `playwright.extend<T>(customFixture)` to ensure availability of custom fixture in the `afterEach` hook.
 
 
 ### Skip test or suite: `@skip(reason?: string)`
@@ -487,4 +500,58 @@ const customSuiteAndTestDecorator = createSuiteAndTestDecorator(
     // custom test decorator code
   }
 )
+```
+
+
+### Fixtures
+> If you are not familiar with concept of fixtures in Playwright, please read [this](https://playwright.dev/docs/test-fixtures) article first.
+
+The `extend<T>(customFixture)` method generates decorators with access to custom fixture.
+
+The following example illustrates how to create decorators with access to `user` fixture:
+
+```ts
+import { test as base } from 'playwright';
+import { suite, test, extend } from 'playwright-decorators';
+
+// #1 Create fixture type
+type UserFixture = {
+    user: {
+      firstName: string;
+      lastName: string;
+    }
+}
+
+// #2 Create user fixture
+const withUser = base.extend<UserFixture>({
+    user: async ({}, use) => {
+        await use({
+            firstName: 'John',
+            lastName: 'Doe'
+        })
+    }
+})
+
+// #3 Generate afterAll, afterEach, test, beforeAll, beforeEach decorators with access to the user fixture
+const {
+    afterAll,
+    afterEach,
+    test,
+    beforeAll,
+    beforeEach,
+} = extend<UserFixture>(withUser);
+
+// #4 Use decorators
+@suite()
+class MyTestSuite {
+    @beforeAll()
+    async beforeAll({ user }: TestArgs<UserFixture>) { // have access to user fixture
+        // ...
+    }
+
+    @test()
+    async test({ user }: TestArgs<UserFixture>) { // have access to user fixture
+        // ...
+    }
+}
 ```
