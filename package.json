@@ -1,6 +1,6 @@
 {
   "name": "playwright-decorators",
-  "version": "0.14.3",
+  "version": "0.15.0",
   "description": "Decorators for writing Playwright based tests.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
