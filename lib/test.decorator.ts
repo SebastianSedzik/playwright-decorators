@@ -96,9 +96,7 @@ export function isTestDecoratedMethod(method: any): method is TestDecoratedMetho
  *
  * Behaviour of decorator can be modified by other decorators using injected `testDecorator` property.
  */
-export const test = <T = unknown>(
-  options: TestDecoratorOptions = {} // @todo inject playwright
-) =>
+export const test = <T = void>(options: TestDecoratorOptions = {}) =>
   function (originalMethod: TestMethod<T>, context: ClassMethodDecoratorContext) {
     const testDecorator = new TestDecorator(originalMethod, options)
 

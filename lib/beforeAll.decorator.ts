@@ -14,7 +14,7 @@ export interface BeforeAllDecoratorOptions<T> {
  * Run method before all tests in the suite.
  * Target class should be marked by @suite decorator.
  */
-export const beforeAll = <T = unknown>(options?: BeforeAllDecoratorOptions<T>) =>
+export const beforeAll = <T = void>(options?: BeforeAllDecoratorOptions<T>) =>
   function (originalMethod: TestMethod<T>, context: ClassMethodDecoratorContext) {
     context.addInitializer(function () {
       const decoratedBeforeAll = decoratePlaywrightTest<T>(

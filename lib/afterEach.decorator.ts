@@ -14,7 +14,7 @@ export interface AfterEachDecoratorOptions<T> {
  * Run method after each test in suite.
  * Target class should be marked by @suite decorator.
  */
-export const afterEach = <T = unknown>(options?: AfterEachDecoratorOptions<T>) =>
+export const afterEach = <T = void>(options?: AfterEachDecoratorOptions<T>) =>
   function (originalMethod: TestMethod<T>, context: ClassMethodDecoratorContext) {
     context.addInitializer(function () {
       const decoratedBeforeEach = decoratePlaywrightTest<T>(
