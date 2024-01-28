@@ -370,7 +370,7 @@ class MyTestSuite {
 ### Retry test(s): `@retry(retries: number)`
 Set the maximum number of retry attempts given to failed `@tests` in the `@suite`
 
-```
+```ts
 import { suite, test, retry } from 'playwright-decorators';
 
 @retry(3) // <-- Decorate suite with @retry()
@@ -381,7 +381,6 @@ class MyTestSuite {
         // ...
     }
 }
-
 ```
 
 #### Options
