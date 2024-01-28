@@ -54,6 +54,7 @@ class MyTestSuite {
 - [Run only selected test(s) or suite(s): `@only`](#run-only-selected-tests-or-suites-only)
 - [Run test(s) or suite(s) with certain tag(s): `@tag`](#run-tests-or-suites-with-certain-tags-tagtags-string)
 - [Add custom annotation to test(s): `@annotate`](#add-custom-annotation-to-tests-annotatetype-string-description-string)
+- [Retry test(s): `@retry`](#retry-tests-retries-number)
 - [Run test(s) or suite(s) in debug mode: `@debug`](#run-tests-or-suites-in-debug-mode-debug)
 - [Run test(s) or suite(s) in preview mode: `@preview`](#run-tests-or-suites-in-preview-mode-preview)
 - [Create custom decorator: `createSuiteDecorator`, `createTestDecorator`, `createSuiteAndTestDecorator`](#custom-decorators)
@@ -365,6 +366,26 @@ class MyTestSuite {
 #### Options
 - `type` (required) - type of annotation, for example 'skip' or 'fail'.
 - `description` (optional) - description of annotation.
+
+### Retry test(s): `@retry(retries: number)`
+Set the maximum number of retry attempts given to failed `@tests` in the `@suite`
+
+```
+import { suite, test, retry } from 'playwright-decorators';
+
+@retry(3) // <-- Decorate suite with @retry()
+@suite()
+class MyTestSuite {
+    @test()
+    async test() { // <- This test may be retried up to 3 times if it fails
+        // ...
+    }
+}
+
+```
+
+#### Options
+- `retries` (required) - the max number of retries for each test.
 
 
 ### Run test(s) or suite(s) in debug mode: `@debug()`
