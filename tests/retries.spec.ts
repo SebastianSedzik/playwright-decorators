@@ -1,10 +1,10 @@
-import { suite, test, retry, TestInfo } from '../lib'
+import { suite, test, retries, TestInfo } from '../lib'
 import playwright, { expect } from '@playwright/test'
 
-playwright.describe('@skip decorator', () => {
-  @retry(3)
+playwright.describe('@retries decorator', () => {
+  @retries(3)
   @suite()
-  class RetrySuite {
+  class RetriesSuite {
     @test()
     // eslint-disable-next-line no-empty-pattern
     'Should retry test 3 times'({}, testInfo: TestInfo) {

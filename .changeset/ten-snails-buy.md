@@ -7,9 +7,9 @@ Add `@retry` decorator
 Set the maximum number of retry attempts given to failed `@tests` in the `@suite`
 
 ```ts
-import { suite, test, retry } from 'playwright-decorators';
+import { suite, test, retries } from 'playwright-decorators';
 
-@retry(3) // <-- Decorate suite with @retry()
+@retries(3) // <-- Decorate suite with @retries()
 @suite()
 class MyTestSuite {
     @test()

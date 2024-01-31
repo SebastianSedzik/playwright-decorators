@@ -20,7 +20,7 @@ export { fixme } from './fixme.decorator'
 export { only } from './only.decorator'
 export { annotation } from './annotation.decorator'
 export { tag } from './tag.decorator'
-export { retry } from './retry.decorator'
+export { retries } from './retries.decorator'
 
 // helpers
 export { debug } from './debug.decorator'

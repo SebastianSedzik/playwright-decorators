@@ -54,7 +54,7 @@ class MyTestSuite {
 - [Run only selected test(s) or suite(s): `@only`](#run-only-selected-tests-or-suites-only)
 - [Run test(s) or suite(s) with certain tag(s): `@tag`](#run-tests-or-suites-with-certain-tags-tagtags-string)
 - [Add custom annotation to test(s): `@annotate`](#add-custom-annotation-to-tests-annotatetype-string-description-string)
-- [Retry test(s): `@retry`](#retry-tests-retries-number)
+- [Change or set retries for test(s): `@retries`](#change-or-set-retries-for-tests-retriesretries-number)
 - [Run test(s) or suite(s) in debug mode: `@debug`](#run-tests-or-suites-in-debug-mode-debug)
 - [Run test(s) or suite(s) in preview mode: `@preview`](#run-tests-or-suites-in-preview-mode-preview)
 - [Create custom decorator: `createSuiteDecorator`, `createTestDecorator`, `createSuiteAndTestDecorator`](#custom-decorators)
@@ -367,13 +367,13 @@ class MyTestSuite {
 - `type` (required) - type of annotation, for example 'skip' or 'fail'.
 - `description` (optional) - description of annotation.
 
-### Retry test(s): `@retry(retries: number)`
+### Change or set retries for test(s): `@retries(retries: number)`
 Set the maximum number of retry attempts given to failed `@tests` in the `@suite`
 
 ```ts
-import { suite, test, retry } from 'playwright-decorators';
+import { suite, test, retries } from 'playwright-decorators';
 
-@retry(3) // <-- Decorate suite with @retry()
+@retries(3) // <-- Decorate suite with @retries()
 @suite()
 class MyTestSuite {
     @test()
