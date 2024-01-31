@@ -1,5 +1,27 @@
 ### Changelog
 
+## 0.16.0
+
+### Minor Changes
+
+- [#58](https://github.com/SebastianSedzik/playwright-decorators/pull/58) [`2962b6e`](https://github.com/SebastianSedzik/playwright-decorators/commit/2962b6e8dc84822742d98cf786cc6a96b60b9455) Thanks [@SebastianSedzik](https://github.com/SebastianSedzik)! - Add `@retries` decorator
+
+  Set the maximum number of retry attempts given to failed `@tests` in the `@suite`
+
+  ```ts
+  import { suite, test, retries } from "playwright-decorators";
+
+  @retries(3) // <-- Decorate suite with @retries()
+  @suite()
+  class MyTestSuite {
+    @test()
+    async test() {
+      // <- This test may be retried up to 3 times if it fails
+      // ...
+    }
+  }
+  ```
+
 ## 0.15.0
 
 ### Minor Changes
