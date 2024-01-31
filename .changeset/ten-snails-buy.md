@@ -2,7 +2,7 @@
 "playwright-decorators": minor
 ---
 
-Add `@retry` decorator
+Add `@retries` decorator
 
 Set the maximum number of retry attempts given to failed `@tests` in the `@suite`
 
