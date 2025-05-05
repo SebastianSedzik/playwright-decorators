@@ -38,9 +38,9 @@
   },
   "devDependencies": {
     "@changesets/changelog-github": "0.5.1",
-    "@changesets/cli": "2.29.0",
+    "@changesets/cli": "2.29.3",
     "@playwright/test": "1.36.1",
-    "@types/node": "20.17.30",
+    "@types/node": "20.17.32",
     "@typescript-eslint/eslint-plugin": "5.62.0",
     "dts-bundle-generator": "8.1.2",
     "eslint": "8.57.0",
